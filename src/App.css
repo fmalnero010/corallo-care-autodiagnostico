@@ -329,21 +329,13 @@ form {
 }
 
 .result-cta-note {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-sm);
   background: var(--surface-2);
   border: 1px dashed var(--border);
   color: var(--ink);
   font-size: var(--text-sm);
-}
-
-.result-cta-note .button-icon {
-  flex: none;
-  color: var(--ink-muted);
+  line-height: 1.5;
 }
 
 .link-button {

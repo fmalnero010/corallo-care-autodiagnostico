@@ -3,7 +3,7 @@ import { useQuizStore } from '../store/useQuizStore';
 import { sendResultEmail } from '../api/sendResult';
 import { enqueuePendingLead, flushPendingLeads } from '../api/pendingLeads';
 import { parseResult, biotipoInfo, sensibilidadInfo, hidratacionInfo, type TraitInfo } from '../data/results';
-import { IconDroplet, IconShield, IconLeaf, IconArrowRight, IconRefresh } from './Icons';
+import { IconDroplet, IconShield, IconLeaf, IconRefresh } from './Icons';
 import { useAutoFocus } from '../hooks/useAutoFocus';
 import { EmptyState } from './EmptyState';
 
@@ -75,10 +75,9 @@ export function ResultStep() {
         <TraitCard icon={<IconLeaf className="trait-icon-svg" />} info={hidratacionInfo[hidratacion]} index={2} />
       </div>
 
-      {/* TODO: wire a un link real cuando tengamos la URL del catálogo/tienda de Corallo Care. */}
+      {/* TODO: convertir en link/botón real cuando exista la URL del catálogo o tienda de Corallo Care. */}
       <p className="result-cta-note">
         Consultá con tu asesor de Corallo Care para elegir los productos ideales para tu piel.
-        <IconArrowRight className="button-icon" />
       </p>
       <button type="button" className="link-button" onClick={reset}>
         <IconRefresh className="link-button-icon" />
