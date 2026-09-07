@@ -101,18 +101,27 @@ npm run build
 
 Esto corre, en orden: type-check (`tsc -b`), build del front (`vite build`)
 y `build:api`, que empaqueta `server/send-result.ts` en un único archivo
-autocontenido (`api/send-result.js`, generado — no se commitea) con esbuild.
+autocontenido (`api/send-result.js`) con esbuild.
 
-**Por qué la función se empaqueta así:** Vercel no bundlea las funciones de
+**Por qué la función se empaqueta así, y por qué el resultado SÍ se
+commitea** (a diferencia de `dist/`): Vercel no bundlea las funciones de
 `/api` que escriben `import` relativos a otras carpetas del repo — las
 transpila archivo por archivo y las corre como ESM nativo de Node, que (a
 diferencia de `require`) no adivina extensiones de archivo. Un
 `import { x } from '../src/schemas'` sin bundlear termina en
-`ERR_MODULE_NOT_FOUND` en producción aunque funcione perfecto en local. Por
-eso el código de la función vive en `server/send-result.ts` (no en `api/`,
-para que Vercel no lo detecte como función por su cuenta) y el build genera
-el único archivo que Vercel sí despliega tal cual, sin imports externos que
-resolver.
+`ERR_MODULE_NOT_FOUND` en producción aunque funcione perfecto en local.
+Además, Vercel parece decidir qué funciones existen mirando el repo tal
+como está en git, no el resultado del build — un `api/send-result.js`
+generado solo durante el build nunca llegó a ser detectado como función
+(404). Por eso el código fuente vive en `server/send-result.ts` (no en
+`api/`, para que Vercel no lo detecte por su cuenta) y **el bundle generado
+en `api/send-result.js` se commitea**: así existe en el repo desde el
+checkout, sin depender de en qué momento corre el build.
+
+⚠️ Si editás `server/send-result.ts`, corré `npm run build:api` y commiteá
+el `api/send-result.js` actualizado junto con tu cambio — `npm run build`
+lo regenera solo, pero como es un archivo trackeado, un cambio sin
+regenerar quedaría desactualizado en el próximo deploy.
 
 ### Vercel (deploy recomendado — con envío de email)
 
@@ -149,5 +158,5 @@ server/
   send-result.ts           código fuente de la función serverless (envío con Resend)
 api/
   package.json             fuerza CommonJS para lo que Vercel deploya de esta carpeta
-  send-result.js            generado por `npm run build:api` — no se commitea
+  send-result.js            bundle generado por `npm run build:api` — SÍ se commitea
 ```

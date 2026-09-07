@@ -14,10 +14,6 @@ dist-ssr
 .env
 .vercel
 
-# Función serverless empaquetada por `npm run build:api` (esbuild).
-# Se genera en cada build a partir de server/send-result.ts.
-api/send-result.js
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
