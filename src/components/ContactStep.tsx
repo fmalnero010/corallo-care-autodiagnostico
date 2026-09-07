@@ -59,7 +59,7 @@ export function ContactStep() {
         </form.Field>
 
         <p className="consent-note">
-          Usamos tu nombre para identificar tu resultado y para que un asesor de Corallo Care pueda contactarte con
+          Usamos tu nombre para identificar tu resultado y para que Corallo Care pueda contactarte con
           recomendaciones personalizadas para tu piel.
         </p>
 

@@ -7,12 +7,9 @@ import { IconDroplet, IconShield, IconLeaf, IconRefresh } from './Icons';
 import { useAutoFocus } from '../hooks/useAutoFocus';
 import { EmptyState } from './EmptyState';
 
-function TraitCard({ icon, info, index }: { icon: React.ReactNode; info: TraitInfo; index: number }) {
+function TraitRow({ icon, info, index }: { icon: React.ReactNode; info: TraitInfo; index: number }) {
   return (
-    <div
-      className="trait-card"
-      style={{ '--trait-color': info.color, '--trait-tint': info.tint, '--trait-delay': `${index * 110}ms` } as React.CSSProperties}
-    >
+    <div className="trait-row" style={{ '--trait-color': info.color, '--trait-delay': `${index * 90}ms` } as React.CSSProperties}>
       <div className="trait-icon">{icon}</div>
       <div>
         <p className="trait-label">{info.label}</p>
@@ -28,7 +25,7 @@ export function ResultStep() {
   const answers = useQuizStore((s) => s.answers);
   const contact = useQuizStore((s) => s.contact);
   const reset = useQuizStore((s) => s.reset);
-  const headingRef = useAutoFocus<HTMLParagraphElement>([]);
+  const headingRef = useAutoFocus<HTMLHeadingElement>([]);
 
   const sentRef = useRef(false);
 
@@ -62,23 +59,24 @@ export function ResultStep() {
 
   return (
     <div className="card card-result">
-      <div className="result-head" style={{ '--result-color': bio.color, '--result-tint': bio.tint } as React.CSSProperties}>
-        <p ref={headingRef} tabIndex={-1} className="result-greeting">
-          Gracias, {contact.name}. Tu piel es
-        </p>
-        <h1 className="result-headline">{result}</h1>
+      <p className="result-greeting">Gracias, {contact.name}.</p>
+
+      <div className="result-answer" style={{ '--result-color': bio.color, '--result-tint': bio.tint } as React.CSSProperties}>
+        <span className="result-eyebrow">Tu diagnóstico</span>
+        <h1 ref={headingRef} tabIndex={-1} className="result-headline">
+          {result}
+        </h1>
       </div>
 
-      <div className="trait-list">
-        <TraitCard icon={<IconDroplet className="trait-icon-svg" />} info={bio} index={0} />
-        <TraitCard icon={<IconShield className="trait-icon-svg" />} info={sensibilidadInfo[sensibilidad]} index={1} />
-        <TraitCard icon={<IconLeaf className="trait-icon-svg" />} info={hidratacionInfo[hidratacion]} index={2} />
+      <div className="trait-section">
+        <p className="trait-section-label">Qué significa</p>
+        <div className="trait-list">
+          <TraitRow icon={<IconDroplet className="trait-icon-svg" />} info={bio} index={0} />
+          <TraitRow icon={<IconShield className="trait-icon-svg" />} info={sensibilidadInfo[sensibilidad]} index={1} />
+          <TraitRow icon={<IconLeaf className="trait-icon-svg" />} info={hidratacionInfo[hidratacion]} index={2} />
+        </div>
       </div>
 
-      {/* TODO: convertir en link/botón real cuando exista la URL del catálogo o tienda de Corallo Care. */}
-      <p className="result-cta-note">
-        Consultá con tu asesor de Corallo Care para elegir los productos ideales para tu piel.
-      </p>
       <button type="button" className="link-button" onClick={reset}>
         <IconRefresh className="link-button-icon" />
         Hacer el autodiagnóstico de nuevo

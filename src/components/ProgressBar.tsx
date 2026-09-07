@@ -5,29 +5,15 @@ interface ProgressBarProps {
   current: number;
 }
 
-interface StageGroup {
-  stage: string;
-  start: number;
-  count: number;
-}
-
-function groupByStage(questions: Question[]): StageGroup[] {
-  const groups: StageGroup[] = [];
-  for (let i = 0; i < questions.length; i++) {
-    const stage = questions[i].stage;
-    const last = groups[groups.length - 1];
-    if (last && last.stage === stage) {
-      last.count += 1;
-    } else {
-      groups.push({ stage, start: i, count: 1 });
-    }
-  }
-  return groups;
-}
-
+/**
+ * Un segmento por pregunta real (no un segmento por tramo): con 8
+ * preguntas se ven 8 segmentos, nunca menos — mostrar solo 3 (uno por
+ * tramo) hacía parecer que había 3 pasos cuando hay 8. El único gesto
+ * hacia los 3 tramos (biotipo/sensibilidad/hidratación) es un espacio más
+ * grande entre preguntas de tramos distintos.
+ */
 export function ProgressBar({ questions, current }: ProgressBarProps) {
   const total = questions.length;
-  const groups = groupByStage(questions);
   const isLast = current === total - 1;
   const stepLabel = questions[current]?.stepLabel ?? '';
 
@@ -41,15 +27,14 @@ export function ProgressBar({ questions, current }: ProgressBarProps) {
       aria-valuetext={`Pregunta ${current + 1} de ${total}: ${stepLabel}`}
     >
       <div className={`progress-track${isLast ? ' progress-track-near' : ''}`}>
-        {groups.map((group) => {
-          const groupEnd = group.start + group.count;
-          let fillPct = 0;
-          if (current >= groupEnd) fillPct = 100;
-          else if (current >= group.start) fillPct = ((current - group.start + 1) / group.count) * 100;
+        {questions.map((q, i) => {
+          const stageBreak = i > 0 && questions[i - 1].stage !== q.stage;
+          const state = i < current ? 'done' : i === current ? 'current' : 'pending';
           return (
-            <div className="progress-segment" key={group.start} style={{ flexGrow: group.count }}>
-              <div className="progress-segment-fill" style={{ width: `${fillPct}%` }} />
-            </div>
+            <div
+              key={q.id}
+              className={`progress-segment progress-segment-${state}${stageBreak ? ' progress-segment-break' : ''}`}
+            />
           );
         })}
       </div>
