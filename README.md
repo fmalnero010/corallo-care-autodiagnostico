@@ -97,11 +97,25 @@ vercel dev
 npm run build
 ```
 
-Deploy en Vercel (detecta Vite y la carpeta `api/` automáticamente):
+### Vercel (deploy recomendado — con envío de email)
+
+Detecta Vite y la carpeta `api/` automáticamente:
 
 ```bash
 vercel deploy --prod
 ```
+
+### GitHub Pages (solo demo estática, sin envío de email)
+
+Hay un workflow (`.github/workflows/deploy-pages.yml`) que compila y
+publica `dist/` en cada push a `main`. Para activarlo una sola vez: **Settings
+→ Pages → Build and deployment → Source: "GitHub Actions"** en el repo.
+
+⚠️ GitHub Pages solo sirve archivos estáticos — **no puede correr
+`api/send-result.ts`**. El cuestionario y el cálculo del diagnóstico
+funcionan igual (son 100% client-side), pero el envío de email va a fallar
+siempre ahí (la UI lo maneja mostrando el resultado igual, sin bloquear).
+Para tener el flujo completo con email, el deploy tiene que ser en Vercel.
 
 ## Estructura
 
