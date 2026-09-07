@@ -1,74 +1,88 @@
 import type { Question } from '../types';
 
 /**
- * Texto de opciones extraído 1:1 de las 8.192 (mujer) y 1.152 (hombre)
- * combinaciones exhaustivas provistas por LACA. El enunciado de cada
- * pregunta ("prompt") es una redacción propia inferida a partir de las
- * opciones, ya que el árbol original solo documentaba letras + resultado.
- * Ajustar el copy de "prompt" no afecta la lógica de diagnóstico.
+ * Preguntas y opciones extraídas literalmente del JavaScript de
+ * https://laboratoriolaca.com/autodiagnostico (arrays `questions` y
+ * `manQuestions`, y `_textList` / `_menTextList` para el stepLabel).
+ * Se preserva el texto tal cual está en el sitio (incluye alguna
+ * inconsistencia de puntuación del original, p. ej. "Nunca" sin punto
+ * en la versión hombre).
  */
 export const womenQuestions: Question[] = [
   {
     id: 'P1',
-    prompt: '¿Tu rostro presenta brillo (grasitud) a lo largo del día?',
+    stepLabel: 'BRILLO',
+    prompt: 'Durante el día, ¿te brilla la piel del rostro?',
     options: [
-      { letter: 'A', text: 'Sí, pero solo en nariz y frente' },
-      { letter: 'B', text: 'Sí, por todo el rostro' },
-      { letter: 'C', text: 'Sí, por todo el rostro y en exceso' },
-      { letter: 'D', text: 'No, se muestra seca y a veces se escama' },
+      { letter: 'A', text: 'Si, pero solo en la nariz y la frente' },
+      { letter: 'B', text: 'Sí, por todo el rostro.' },
+      { letter: 'C', text: 'Sí, por todo el rostro y en exceso.' },
+      { letter: 'D', text: 'No, se muestra seca y a veces se escama.' },
     ],
   },
   {
     id: 'P2',
-    prompt: '¿Cómo ves tus poros?',
+    stepLabel: 'POROS',
+    prompt: 'Los poros de tu rostro son:',
     options: [
-      { letter: 'A', text: 'Poros visibles en nariz y/o pómulos' },
-      { letter: 'B', text: 'Poros dilatados en varias partes' },
-      { letter: 'C', text: 'Muy dilatados en la mayor parte' },
-      { letter: 'D', text: 'Imperceptibles' },
+      { letter: 'A', text: 'Se pueden ver claramente en nariz y/o pómulos' },
+      { letter: 'B', text: 'Están dilatados en varias partes del rostro.' },
+      { letter: 'C', text: 'Están muy dilatados en la mayor parte del rostro.' },
+      { letter: 'D', text: 'Son imperceptibles.' },
     ],
   },
   {
     id: 'P3',
-    prompt: '¿Cómo describirías la textura de tu piel?',
+    stepLabel: 'TACTO',
+    prompt: 'La piel al tacto, tomada entre los dedos pulgar e índice:',
     options: [
-      { letter: 'A', text: 'Fina y seca' },
-      { letter: 'B', text: 'Gruesa y oleosa' },
-      { letter: 'C', text: 'Rugosa y muy oleosa' },
-      { letter: 'D', text: 'Muy fina, flácida y seca' },
+      { letter: 'A', text: 'Fina y seca.' },
+      { letter: 'B', text: 'Gruesa y oleosa.' },
+      { letter: 'C', text: 'Rugosa y muy oleosa.' },
+      { letter: 'D', text: 'Muy fina, fláccida y seca.' },
     ],
   },
   {
     id: 'P4',
-    prompt: '¿Con qué frecuencia te salen granitos o imperfecciones?',
+    stepLabel: 'COMEDONES O ACNÉ',
+    prompt: '¿Tenés comedones y/o acné?',
     options: [
-      { letter: 'A', text: 'A veces' },
-      { letter: 'B', text: 'Con frecuencia' },
-      { letter: 'C', text: 'Con mucha frecuencia, incluso pecho y espalda' },
-      { letter: 'D', text: 'Nunca' },
+      { letter: 'A', text: 'A veces.' },
+      { letter: 'B', text: 'Con frecuencia.' },
+      { letter: 'C', text: 'Con mucha frecuencia, incluso en pecho y espalda.' },
+      { letter: 'D', text: 'Nunca.' },
     ],
   },
   {
     id: 'P5',
-    prompt: '¿Qué te pasa con el maquillaje o el exceso de oleosidad durante el día?',
+    stepLabel: 'MAQUILLAJE',
+    prompt: 'Cuando usás maquillajes',
     options: [
-      { letter: 'A', text: 'Retoca frente/nariz/mentón durante el día' },
-      { letter: 'B', text: 'Retoca antes del mediodía' },
-      { letter: 'C', text: 'Dura poco y debe limpiar exceso de oleosidad' },
-      { letter: 'D', text: 'Bases/correctores quedan desparejos y algunas zonas absorben' },
+      {
+        letter: 'A',
+        text: 'Tenés que retocarlo durante el transcurso del día en frente, nariz y mentón, pero el resto está bien.',
+      },
+      { letter: 'B', text: 'Tenés que retocarlo antes del mediodia.' },
+      {
+        letter: 'C',
+        text: 'Te dura poco, aunque lo fijes bien con polvo volátil. Tenés que limpiar el exceso de oleosidad, antes de retocarlo.',
+      },
+      { letter: 'D', text: 'Las bases y correctores me quedan desparejos y durante el día en algunas zonas se absorbe.' },
     ],
   },
   {
     id: 'P6',
-    prompt: '¿Tu piel se irrita o reacciona fácilmente (enrojecimiento, picazón, ardor)?',
+    stepLabel: 'SENSIBILIDAD',
+    prompt: 'Tenés enrojecimiento y/o alteraciones vasculares en nariz y pómulos?',
     options: [
-      { letter: 'A', text: 'Sí' },
+      { letter: 'A', text: 'Si' },
       { letter: 'B', text: 'No' },
     ],
   },
   {
     id: 'P7',
-    prompt: 'Al tacto, ¿cómo sentís tu piel?',
+    stepLabel: 'HIDRATACIÓN',
+    prompt: '¿Cómo sentís la piel al tacto?',
     options: [
       { letter: 'A', text: 'Áspera' },
       { letter: 'B', text: 'Suave' },
@@ -76,10 +90,11 @@ export const womenQuestions: Question[] = [
   },
   {
     id: 'P8',
-    prompt: 'Si pellizcás suavemente tu piel y la soltás, ¿cómo reacciona?',
+    stepLabel: 'TACTO',
+    prompt: 'La piel al tacto, tomada entre los dedos pulgar e índice',
     options: [
-      { letter: 'A', text: 'No turgente; tarda en volver a su posición' },
-      { letter: 'B', text: 'Elástica' },
+      { letter: 'A', text: 'No es turgente y le cuesta volver a su posición natural' },
+      { letter: 'B', text: 'Es elástica' },
     ],
   },
 ];
@@ -87,7 +102,8 @@ export const womenQuestions: Question[] = [
 export const menQuestions: Question[] = [
   {
     id: 'P1',
-    prompt: '¿Qué edad tenés?',
+    stepLabel: 'EDAD',
+    prompt: 'Selecciona tu rango de edad',
     options: [
       { letter: 'A', text: '15 a 25 años' },
       { letter: 'B', text: '25 a 35 años' },
@@ -99,41 +115,45 @@ export const menQuestions: Question[] = [
   },
   {
     id: 'P2',
-    prompt: '¿Tu rostro presenta brillo (grasitud) a lo largo del día?',
+    stepLabel: 'BRILLO',
+    prompt: 'Durante el día, ¿te brilla la piel del rostro?',
     options: [
-      { letter: 'A', text: 'Solo nariz y frente' },
-      { letter: 'B', text: 'Por todo el rostro' },
-      { letter: 'C', text: 'Por todo el rostro y en exceso' },
+      { letter: 'A', text: 'Si, pero solo en la nariz y la frente' },
+      { letter: 'B', text: 'Sí, por todo el rostro.' },
+      { letter: 'C', text: 'Sí, por todo el rostro y en exceso.' },
     ],
   },
   {
     id: 'P3',
-    prompt: '¿Cómo ves tus poros?',
+    stepLabel: 'POROS',
+    prompt: 'Los poros de tu rostro son:',
     options: [
-      { letter: 'A', text: 'Visibles en nariz/pómulos' },
-      { letter: 'B', text: 'Dilatados en varias partes' },
-      { letter: 'C', text: 'Muy dilatados en la mayor parte' },
-      { letter: 'D', text: 'Poco perceptibles en todo el rostro' },
+      { letter: 'A', text: 'Se pueden ver claramente en nariz y/o pómulos' },
+      { letter: 'B', text: 'Están dilatados en varias partes del rostro.' },
+      { letter: 'C', text: 'Están muy dilatados en la mayor parte del rostro.' },
+      { letter: 'D', text: 'Son poco perceptibles en todo el rostro.' },
     ],
   },
   {
     id: 'P4',
-    prompt: '¿Con qué frecuencia te salen granitos o imperfecciones?',
+    stepLabel: 'COMEDONES O ACNÉ',
+    prompt: '¿Tenés comedones y/o acné?',
     options: [
-      { letter: 'A', text: 'A veces' },
-      { letter: 'B', text: 'Con frecuencia' },
-      { letter: 'C', text: 'Con mucha frecuencia, incluso pecho y espalda' },
+      { letter: 'A', text: 'A veces.' },
+      { letter: 'B', text: 'Con frecuencia.' },
+      { letter: 'C', text: 'Con mucha frecuencia, incluso en pecho y espalda.' },
       { letter: 'D', text: 'Nunca' },
     ],
   },
   {
     id: 'P5',
-    prompt: '¿Qué te pasa con la piel al afeitarte?',
+    stepLabel: 'AFEITADO',
+    prompt: 'Después de afeitarte',
     options: [
-      { letter: 'A', text: 'Se irrita' },
-      { letter: 'B', text: 'No se irrita' },
-      { letter: 'C', text: 'Aparecen pústulas' },
-      { letter: 'D', text: 'No te afeitas' },
+      { letter: 'A', text: 'Se te irrita la piel.' },
+      { letter: 'B', text: 'No se te irrita la piel' },
+      { letter: 'C', text: 'Te aparecen pústulas.' },
+      { letter: 'D', text: 'No te afeitas.' },
     ],
   },
 ];

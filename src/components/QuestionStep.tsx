@@ -16,7 +16,7 @@ export function QuestionStep() {
 
   return (
     <div className="card">
-      <ProgressBar current={stepIndex} total={questions.length} />
+      <ProgressBar current={stepIndex} total={questions.length} stepLabel={question.stepLabel} />
       <h2>{question.prompt}</h2>
       <div className="option-list">
         {question.options.map((opt) => (

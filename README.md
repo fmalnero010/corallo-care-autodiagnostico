@@ -15,10 +15,12 @@ resultado por email mediante una función serverless de Vercel.
 
 ## Lógica de diagnóstico
 
-La lógica vive en `src/logic/diagnose.ts` y fue reconstruida a partir del
-JavaScript original de LACA, luego **verificada exhaustivamente** contra las
-8.192 combinaciones de mujer y 1.152 de hombre provistas (0 discrepancias en
-ambos casos — ver `diagnoseWomen` / `diagnoseMen`).
+La lógica en `src/logic/diagnose.ts` es un **puerto directo** de
+`obtainResult()` / `obtainMenResult()` del JavaScript original de
+`/autodiagnostico` (verificado condición por condición contra ese código
+fuente), y además **verificado exhaustivamente** contra las 8.192
+combinaciones de mujer y 1.152 de hombre provistas: 0 discrepancias en
+ambos casos.
 
 - **Mujer** (`P1`-`P8`): biotipo por conteo de A/B/C/D en `P1`-`P5` (empate →
   gana A > B > C > D), sensibilidad por `P6`, hidratación por `P7`+`P8`
@@ -29,10 +31,12 @@ ambos casos — ver `diagnoseWomen` / `diagnoseMen`).
   rama, condiciones puntuales sobre `P2`-`P5` para Grasa/Acneica (Joven) o
   Grasa/Grasa Sensible (Madura); el resto cae en Mixta.
 
-El texto de las preguntas (`prompt` en `src/data/questions.ts`) es una
-redacción propia inferida a partir de las opciones — el dataset original solo
-documentaba letras + resultado, no el enunciado exacto de cada pregunta.
-Se puede ajustar libremente sin tocar la lógica.
+El texto de preguntas y opciones (`src/data/questions.ts`) es literal del
+sitio original (arrays `questions` / `manQuestions` del JS), incluyendo
+alguna inconsistencia de puntuación propia del original (p. ej. "Nunca" sin
+punto en la versión hombre). El `stepLabel` de cada pregunta también viene
+del sitio (`_textList` / `_menTextList`, los textos de la barra de
+progreso).
 
 ## Flujo de la app
 

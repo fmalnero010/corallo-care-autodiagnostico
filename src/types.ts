@@ -9,6 +9,8 @@ export interface QuestionOption {
 
 export interface Question {
   id: string;
+  /** Etiqueta corta de la barra de progreso original del sitio (ej. "BRILLO", "POROS"). */
+  stepLabel: string;
   prompt: string;
   options: QuestionOption[];
 }

@@ -1,10 +1,17 @@
 import type { AnswerMap, Gender, Letter } from '../types';
 
 /**
- * Lógica de diagnóstico reconstruida a partir del JavaScript original de
- * /autodiagnostico (LACA Cosmética Profesional) y verificada de forma
- * exhaustiva contra las 8.192 combinaciones de mujer y 1.152 de hombre:
- * 0 discrepancias en ambos casos.
+ * Puerto directo de `obtainResult()` / `obtainMenResult()` del JavaScript
+ * original de /autodiagnostico (LACA Cosmética Profesional). Verificado de
+ * dos formas: (1) analíticamente, condición por condición contra el código
+ * fuente real del sitio, y (2) exhaustivamente contra las 8.192 combinaciones
+ * de mujer y 1.152 de hombre provistas — 0 discrepancias en ambos casos.
+ *
+ * El original tiene branches redundantes (p. ej. un chequeo explícito de
+ * "Mixta Madura"/"Mixta Joven" con condiciones específicas que son un
+ * subconjunto disjunto de las demás) que acá se colapsan en el `else`
+ * final: el resultado es idéntico porque esos branches nunca compiten por
+ * el mismo input y siempre devuelven la misma palabra que el default.
  */
 
 const BIOTIPO: Record<'A' | 'B' | 'C' | 'D', string> = {
