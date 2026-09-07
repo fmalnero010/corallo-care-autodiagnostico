@@ -84,9 +84,11 @@ Levanta solo el front (Vite). Las llamadas a `/api/send-result` van a fallar
 con 404 porque Vite no sirve funciones serverless — es esperable, la UI
 maneja el error mostrando el resultado igual, sin bloquear al usuario.
 
-Para probar el flujo completo (front + función serverless) local:
+Para probar el flujo completo (front + función serverless) local, primero
+generá el bundle de la función y después levantá `vercel dev`:
 
 ```bash
+npm run build:api
 npm i -g vercel   # una sola vez
 vercel dev
 ```
@@ -96,6 +98,21 @@ vercel dev
 ```bash
 npm run build
 ```
+
+Esto corre, en orden: type-check (`tsc -b`), build del front (`vite build`)
+y `build:api`, que empaqueta `server/send-result.ts` en un único archivo
+autocontenido (`api/send-result.js`, generado — no se commitea) con esbuild.
+
+**Por qué la función se empaqueta así:** Vercel no bundlea las funciones de
+`/api` que escriben `import` relativos a otras carpetas del repo — las
+transpila archivo por archivo y las corre como ESM nativo de Node, que (a
+diferencia de `require`) no adivina extensiones de archivo. Un
+`import { x } from '../src/schemas'` sin bundlear termina en
+`ERR_MODULE_NOT_FOUND` en producción aunque funcione perfecto en local. Por
+eso el código de la función vive en `server/send-result.ts` (no en `api/`,
+para que Vercel no lo detecte como función por su cuenta) y el build genera
+el único archivo que Vercel sí despliega tal cual, sin imports externos que
+resolver.
 
 ### Vercel (deploy recomendado — con envío de email)
 
@@ -111,11 +128,11 @@ Hay un workflow (`.github/workflows/deploy-pages.yml`) que compila y
 publica `dist/` en cada push a `main`. Para activarlo una sola vez: **Settings
 → Pages → Build and deployment → Source: "GitHub Actions"** en el repo.
 
-⚠️ GitHub Pages solo sirve archivos estáticos — **no puede correr
-`api/send-result.ts`**. El cuestionario y el cálculo del diagnóstico
-funcionan igual (son 100% client-side), pero el envío de email va a fallar
-siempre ahí (la UI lo maneja mostrando el resultado igual, sin bloquear).
-Para tener el flujo completo con email, el deploy tiene que ser en Vercel.
+⚠️ GitHub Pages solo sirve archivos estáticos — **no puede correr la función
+serverless**. El cuestionario y el cálculo del diagnóstico funcionan igual
+(son 100% client-side), pero el envío de email va a fallar siempre ahí (la
+UI lo maneja mostrando el resultado igual, sin bloquear). Para tener el
+flujo completo con email, el deploy tiene que ser en Vercel.
 
 ## Estructura
 
@@ -128,6 +145,9 @@ src/
   store/useQuizStore.ts    estado del wizard (Zustand)
   api/sendResult.ts        cliente fetch hacia /api/send-result
   components/              pasos del wizard (género, pregunta, contacto, resultado)
+server/
+  send-result.ts           código fuente de la función serverless (envío con Resend)
 api/
-  send-result.ts           función serverless de Vercel (envío con Resend)
+  package.json             fuerza CommonJS para lo que Vercel deploya de esta carpeta
+  send-result.js            generado por `npm run build:api` — no se commitea
 ```
