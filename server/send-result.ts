@@ -63,7 +63,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const summary = buildAnswersSummary(gender, answers as AnswerMap);
   const genderLabel = gender === 'mujer' ? 'Mujer' : 'Hombre';
 
-  // Único destinatario: la casilla interna de LACA. Quien completa el
+  // Único destinatario: la casilla interna de Corallo Care. Quien completa el
   // cuestionario no da su email ni recibe ninguna confirmación — esto es
   // un lead interno, no una respuesta al usuario.
   //

@@ -47,7 +47,7 @@ export function ProgressBar({ questions, current }: ProgressBarProps) {
           if (current >= groupEnd) fillPct = 100;
           else if (current >= group.start) fillPct = ((current - group.start + 1) / group.count) * 100;
           return (
-            <div className="progress-segment" key={group.start}>
+            <div className="progress-segment" key={group.start} style={{ flexGrow: group.count }}>
               <div className="progress-segment-fill" style={{ width: `${fillPct}%` }} />
             </div>
           );

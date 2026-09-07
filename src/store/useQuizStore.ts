@@ -79,7 +79,7 @@ export const useQuizStore = create<QuizState>()(
       reset: () => set({ ...initialState }),
     }),
     {
-      name: 'laca-autodiagnostico',
+      name: 'corallo-care-autodiagnostico',
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

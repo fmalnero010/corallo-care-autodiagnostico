@@ -1,7 +1,7 @@
 import type { SendResultRequest } from '../schemas';
 import { sendResultEmail } from './sendResult';
 
-const STORAGE_KEY = 'laca-pending-leads';
+const STORAGE_KEY = 'corallo-care-pending-leads';
 
 /**
  * Si el envío del mail falla (API caída, red inestable), antes se perdía

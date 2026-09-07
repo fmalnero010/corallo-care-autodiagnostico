@@ -7,8 +7,6 @@ import { IconDroplet, IconShield, IconLeaf, IconArrowRight, IconRefresh } from '
 import { useAutoFocus } from '../hooks/useAutoFocus';
 import { EmptyState } from './EmptyState';
 
-const CATALOG_URL = 'https://catalogo.laboratoriolaca.com/';
-
 function TraitCard({ icon, info, index }: { icon: React.ReactNode; info: TraitInfo; index: number }) {
   return (
     <div
@@ -34,8 +32,8 @@ export function ResultStep() {
 
   const sentRef = useRef(false);
 
-  // El envío es un lead interno (a LACA), no una confirmación para la
-  // persona que responde el cuestionario: no se le muestra ningún estado
+  // El envío es un lead interno (a Corallo Care), no una confirmación para
+  // la persona que responde el cuestionario: no se le muestra ningún estado
   // de "enviando"/"enviado"/"error" relacionado al mail.
   useEffect(() => {
     if (sentRef.current) return;
@@ -77,10 +75,11 @@ export function ResultStep() {
         <TraitCard icon={<IconLeaf className="trait-icon-svg" />} info={hidratacionInfo[hidratacion]} index={2} />
       </div>
 
-      <a className="primary-button primary-link" href={CATALOG_URL} target="_blank" rel="noreferrer">
-        Ver productos para tu piel
+      {/* TODO: wire a un link real cuando tengamos la URL del catálogo/tienda de Corallo Care. */}
+      <p className="result-cta-note">
+        Consultá con tu asesor de Corallo Care para elegir los productos ideales para tu piel.
         <IconArrowRight className="button-icon" />
-      </a>
+      </p>
       <button type="button" className="link-button" onClick={reset}>
         <IconRefresh className="link-button-icon" />
         Hacer el autodiagnóstico de nuevo

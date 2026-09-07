@@ -1,9 +1,9 @@
 import type { Question } from '../types';
 
 /**
- * Preguntas y opciones extraídas literalmente del JavaScript de
- * https://laboratoriolaca.com/autodiagnostico (arrays `questions` y
- * `manQuestions`, y `_textList` / `_menTextList` para el stepLabel).
+ * Preguntas y opciones extraídas literalmente del JavaScript del sitio de
+ * referencia (arrays `questions` y `manQuestions`, y `_textList` /
+ * `_menTextList` para el stepLabel).
  * Se corrigieron dos inconsistencias de tipeo del original ("Si" → "Sí"
  * cuando el resto de las opciones de la misma pregunta sí llevan tilde, y
  * puntuación final pareja entre la versión mujer/hombre) — no afectan la

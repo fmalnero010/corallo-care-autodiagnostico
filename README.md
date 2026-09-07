@@ -1,10 +1,9 @@
-# Autodiagnóstico de piel — LACA Cosmética Profesional
+# Autodiagnóstico de piel — Corallo Care
 
-Formulario standalone (React + Vite) que reproduce la lógica de
-`/autodiagnostico` de LACA: cuestionario de piel para mujer (8 preguntas) y
-hombre (5 preguntas), cálculo del diagnóstico en el cliente y aviso del
-resultado como lead interno por email mediante una función serverless de
-Vercel.
+Formulario standalone (React + Vite) para Corallo Care: cuestionario de piel
+para mujer (8 preguntas) y hombre (5 preguntas), cálculo del diagnóstico en
+el cliente y aviso del resultado como lead interno por email mediante una
+función serverless de Vercel.
 
 ## Stack
 
@@ -54,9 +53,9 @@ por defecto de Vite:
   escalas de spacing/radio/sombra, y las tres variantes de tema (claro,
   oscuro por sistema, oscuro forzado).
 - **El resultado** (`src/components/ResultStep.tsx`, `src/data/results.ts`)
-  ya no es un string plano: se desglosa en 3 tarjetas (biotipo, sensibilidad,
-  hidratación) con ícono, color y una explicación real de cada rasgo, más un
-  CTA al catálogo de LACA.
+  desglosa el diagnóstico en 3 tarjetas (biotipo, sensibilidad, hidratación)
+  con ícono, color y una explicación real de cada rasgo — es un único
+  diagnóstico mostrado en sus 3 componentes, no tres resultados distintos.
 - **Bugs de estado corregidos**: "Volver" ahora restaura la opción elegida
   (antes no leía el store), el progreso se persiste en `sessionStorage`
   (antes un refresh perdía el diagnóstico), y cada paso tiene un fallback

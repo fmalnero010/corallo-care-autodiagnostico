@@ -86,12 +86,18 @@ export function IconRefresh({ className }: IconProps) {
   );
 }
 
-/** Marca mínima de LACA: monograma "L" en un sello redondeado. No hay logo oficial provisto. */
+/** Marca mínima de Corallo Care: monograma "C" en un sello redondeado. No hay logo oficial provisto. */
 export function LogoMark({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 32 32" aria-hidden="true">
       <rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="var(--accent)" />
-      <path d="M11.5 9.5v13h9.2" stroke="var(--surface)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path
+        d="M20.5 10.8a7.6 7.6 0 1 0 0 10.4"
+        stroke="var(--surface)"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        fill="none"
+      />
     </svg>
   );
 }
