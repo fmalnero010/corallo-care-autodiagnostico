@@ -63,8 +63,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const summary = buildAnswersSummary(gender, answers as AnswerMap);
   const genderLabel = gender === 'mujer' ? 'Mujer' : 'Hombre';
 
+  // El SDK de Resend NO tira excepción ante un error de la API (dominio no
+  // verificado, key inválida, etc.): devuelve `{ data: null, error }`. Si no
+  // se chequea `error` a mano, un envío fallido se reporta como éxito.
+  // https://github.com/resend/resend-node/issues/429
   try {
-    await resend.emails.send({
+    const userSend = await resend.emails.send({
       from,
       to: contact.email,
       subject: `Tu diagnóstico de piel: ${result}`,
@@ -80,8 +84,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ].join('\n'),
     });
 
+    if (userSend.error) {
+      throw new Error(`Resend rechazó el email al usuario: ${userSend.error.message}`);
+    }
+
     if (internalTo) {
-      await resend.emails.send({
+      const internalSend = await resend.emails.send({
         from,
         to: internalTo,
         replyTo: contact.email,
@@ -96,6 +104,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           summary,
         ].join('\n'),
       });
+
+      // El mail de lead interno es best-effort: si falla, no le arruina la
+      // experiencia al usuario (su mail ya salió bien), solo lo logueamos.
+      if (internalSend.error) {
+        console.error('Resend rechazó el email interno', internalSend.error);
+      }
     }
 
     res.status(200).json({ ok: true });
