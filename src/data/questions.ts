@@ -4,17 +4,22 @@ import type { Question } from '../types';
  * Preguntas y opciones extraídas literalmente del JavaScript de
  * https://laboratoriolaca.com/autodiagnostico (arrays `questions` y
  * `manQuestions`, y `_textList` / `_menTextList` para el stepLabel).
- * Se preserva el texto tal cual está en el sitio (incluye alguna
- * inconsistencia de puntuación del original, p. ej. "Nunca" sin punto
- * en la versión hombre).
+ * Se corrigieron dos inconsistencias de tipeo del original ("Si" → "Sí"
+ * cuando el resto de las opciones de la misma pregunta sí llevan tilde, y
+ * puntuación final pareja entre la versión mujer/hombre) — no afectan la
+ * lógica de diagnóstico, que opera sobre `letter`, nunca sobre el texto.
+ * `helper` es copy propio: una línea que explica para qué sirve cada
+ * pregunta, ausente en el sitio original.
  */
 export const womenQuestions: Question[] = [
   {
     id: 'P1',
     stepLabel: 'BRILLO',
+    stage: 'biotipo',
     prompt: 'Durante el día, ¿te brilla la piel del rostro?',
+    helper: 'Nos ayuda a identificar si tu piel tiende a producir más o menos oleosidad.',
     options: [
-      { letter: 'A', text: 'Si, pero solo en la nariz y la frente' },
+      { letter: 'A', text: 'Sí, pero solo en la nariz y la frente' },
       { letter: 'B', text: 'Sí, por todo el rostro.' },
       { letter: 'C', text: 'Sí, por todo el rostro y en exceso.' },
       { letter: 'D', text: 'No, se muestra seca y a veces se escama.' },
@@ -23,7 +28,9 @@ export const womenQuestions: Question[] = [
   {
     id: 'P2',
     stepLabel: 'POROS',
+    stage: 'biotipo',
     prompt: 'Los poros de tu rostro son:',
+    helper: 'El tamaño de los poros es una de las señales más claras del biotipo de tu piel.',
     options: [
       { letter: 'A', text: 'Se pueden ver claramente en nariz y/o pómulos' },
       { letter: 'B', text: 'Están dilatados en varias partes del rostro.' },
@@ -34,7 +41,9 @@ export const womenQuestions: Question[] = [
   {
     id: 'P3',
     stepLabel: 'TACTO',
+    stage: 'biotipo',
     prompt: 'La piel al tacto, tomada entre los dedos pulgar e índice:',
+    helper: 'La textura al tacto distingue una piel seca de una grasa incluso antes de mirarla.',
     options: [
       { letter: 'A', text: 'Fina y seca.' },
       { letter: 'B', text: 'Gruesa y oleosa.' },
@@ -45,7 +54,9 @@ export const womenQuestions: Question[] = [
   {
     id: 'P4',
     stepLabel: 'COMEDONES O ACNÉ',
+    stage: 'biotipo',
     prompt: '¿Tenés comedones y/o acné?',
+    helper: 'La frecuencia de imperfecciones indica cuánto tiende a obstruirse tu piel.',
     options: [
       { letter: 'A', text: 'A veces.' },
       { letter: 'B', text: 'Con frecuencia.' },
@@ -56,7 +67,9 @@ export const womenQuestions: Question[] = [
   {
     id: 'P5',
     stepLabel: 'MAQUILLAJE',
+    stage: 'biotipo',
     prompt: 'Cuando usás maquillajes',
+    helper: 'Cómo se comporta el maquillaje durante el día revela el nivel real de oleosidad.',
     options: [
       {
         letter: 'A',
@@ -73,16 +86,20 @@ export const womenQuestions: Question[] = [
   {
     id: 'P6',
     stepLabel: 'SENSIBILIDAD',
+    stage: 'sensibilidad',
     prompt: 'Tenés enrojecimiento y/o alteraciones vasculares en nariz y pómulos?',
+    helper: 'El enrojecimiento y las alteraciones vasculares son la principal señal de piel sensible.',
     options: [
-      { letter: 'A', text: 'Si' },
+      { letter: 'A', text: 'Sí' },
       { letter: 'B', text: 'No' },
     ],
   },
   {
     id: 'P7',
     stepLabel: 'HIDRATACIÓN',
+    stage: 'hidratacion',
     prompt: '¿Cómo sentís la piel al tacto?',
+    helper: 'La sensación al tacto ayuda a distinguir una piel deshidratada de una bien hidratada.',
     options: [
       { letter: 'A', text: 'Áspera' },
       { letter: 'B', text: 'Suave' },
@@ -91,7 +108,9 @@ export const womenQuestions: Question[] = [
   {
     id: 'P8',
     stepLabel: 'TACTO',
+    stage: 'hidratacion',
     prompt: 'La piel al tacto, tomada entre los dedos pulgar e índice',
+    helper: 'La elasticidad es el segundo indicador clave del nivel de hidratación.',
     options: [
       { letter: 'A', text: 'No es turgente y le cuesta volver a su posición natural' },
       { letter: 'B', text: 'Es elástica' },
@@ -103,7 +122,9 @@ export const menQuestions: Question[] = [
   {
     id: 'P1',
     stepLabel: 'EDAD',
+    stage: 'edad',
     prompt: 'Selecciona tu rango de edad',
+    helper: 'La edad orienta si tu piel está en una etapa joven o madura, clave para el diagnóstico.',
     options: [
       { letter: 'A', text: '15 a 25 años' },
       { letter: 'B', text: '25 a 35 años' },
@@ -116,9 +137,11 @@ export const menQuestions: Question[] = [
   {
     id: 'P2',
     stepLabel: 'BRILLO',
+    stage: 'biotipo',
     prompt: 'Durante el día, ¿te brilla la piel del rostro?',
+    helper: 'Nos ayuda a identificar si tu piel tiende a producir más o menos oleosidad.',
     options: [
-      { letter: 'A', text: 'Si, pero solo en la nariz y la frente' },
+      { letter: 'A', text: 'Sí, pero solo en la nariz y la frente' },
       { letter: 'B', text: 'Sí, por todo el rostro.' },
       { letter: 'C', text: 'Sí, por todo el rostro y en exceso.' },
     ],
@@ -126,7 +149,9 @@ export const menQuestions: Question[] = [
   {
     id: 'P3',
     stepLabel: 'POROS',
+    stage: 'biotipo',
     prompt: 'Los poros de tu rostro son:',
+    helper: 'El tamaño de los poros es una de las señales más claras del biotipo de tu piel.',
     options: [
       { letter: 'A', text: 'Se pueden ver claramente en nariz y/o pómulos' },
       { letter: 'B', text: 'Están dilatados en varias partes del rostro.' },
@@ -137,21 +162,25 @@ export const menQuestions: Question[] = [
   {
     id: 'P4',
     stepLabel: 'COMEDONES O ACNÉ',
+    stage: 'biotipo',
     prompt: '¿Tenés comedones y/o acné?',
+    helper: 'La frecuencia de imperfecciones indica cuánto tiende a obstruirse tu piel.',
     options: [
       { letter: 'A', text: 'A veces.' },
       { letter: 'B', text: 'Con frecuencia.' },
       { letter: 'C', text: 'Con mucha frecuencia, incluso en pecho y espalda.' },
-      { letter: 'D', text: 'Nunca' },
+      { letter: 'D', text: 'Nunca.' },
     ],
   },
   {
     id: 'P5',
     stepLabel: 'AFEITADO',
+    stage: 'afeitado',
     prompt: 'Después de afeitarte',
+    helper: 'Cómo reacciona tu piel al afeitado es una señal clave de sensibilidad y tendencia acneica.',
     options: [
       { letter: 'A', text: 'Se te irrita la piel.' },
-      { letter: 'B', text: 'No se te irrita la piel' },
+      { letter: 'B', text: 'No se te irrita la piel.' },
       { letter: 'C', text: 'Te aparecen pústulas.' },
       { letter: 'D', text: 'No te afeitas.' },
     ],

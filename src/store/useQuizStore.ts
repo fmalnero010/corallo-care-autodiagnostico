@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import type { AnswerMap, ContactInfo, Gender, Letter } from '../types';
 import { getQuestions } from '../data/questions';
 import { diagnose } from '../logic/diagnose';
@@ -29,43 +30,57 @@ const initialState = {
   result: null,
 };
 
-export const useQuizStore = create<QuizState>((set, get) => ({
-  ...initialState,
+/**
+ * Persistido en sessionStorage (no localStorage): sobrevive a un refresh
+ * accidental dentro de la misma pestaña —el bug reportado de "el
+ * diagnóstico se pierde al refrescar"— pero no se acumula indefinidamente
+ * entre visitas distintas.
+ */
+export const useQuizStore = create<QuizState>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
 
-  selectGender: (gender) => {
-    set({ gender, stage: 'questions', stepIndex: 0, answers: {} });
-  },
+      selectGender: (gender) => {
+        set({ gender, stage: 'questions', stepIndex: 0, answers: {} });
+      },
 
-  answerCurrent: (letter) => {
-    const { gender, stepIndex, answers } = get();
-    if (!gender) return;
-    const questions = getQuestions(gender);
-    const question = questions[stepIndex];
-    if (!question) return;
+      answerCurrent: (letter) => {
+        const { gender, stepIndex, answers } = get();
+        if (!gender) return;
+        const questions = getQuestions(gender);
+        const question = questions[stepIndex];
+        if (!question) return;
 
-    const nextAnswers = { ...answers, [question.id]: letter };
-    const isLastQuestion = stepIndex === questions.length - 1;
+        const nextAnswers = { ...answers, [question.id]: letter };
+        const isLastQuestion = stepIndex === questions.length - 1;
 
-    if (isLastQuestion) {
-      const result = diagnose(gender, nextAnswers);
-      set({ answers: nextAnswers, result, stage: 'contact' });
-    } else {
-      set({ answers: nextAnswers, stepIndex: stepIndex + 1 });
-    }
-  },
+        if (isLastQuestion) {
+          const result = diagnose(gender, nextAnswers);
+          set({ answers: nextAnswers, result, stage: 'contact' });
+        } else {
+          set({ answers: nextAnswers, stepIndex: stepIndex + 1 });
+        }
+      },
 
-  goBack: () => {
-    const { stage, stepIndex } = get();
-    if (stage === 'questions' && stepIndex > 0) {
-      set({ stepIndex: stepIndex - 1 });
-    } else if (stage === 'questions' && stepIndex === 0) {
-      set({ stage: 'gender', gender: null, answers: {} });
-    } else if (stage === 'contact') {
-      set({ stage: 'questions' });
-    }
-  },
+      goBack: () => {
+        const { stage, stepIndex } = get();
+        if (stage === 'questions' && stepIndex > 0) {
+          set({ stepIndex: stepIndex - 1 });
+        } else if (stage === 'questions' && stepIndex === 0) {
+          set({ stage: 'gender', gender: null, answers: {} });
+        } else if (stage === 'contact') {
+          set({ stage: 'questions' });
+        }
+      },
 
-  setContact: (contact) => set({ contact, stage: 'result' }),
+      setContact: (contact) => set({ contact, stage: 'result' }),
 
-  reset: () => set({ ...initialState }),
-}));
+      reset: () => set({ ...initialState }),
+    }),
+    {
+      name: 'laca-autodiagnostico',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);

@@ -32,12 +32,45 @@ ambos casos.
   rama, condiciones puntuales sobre `P2`-`P5` para Grasa/Acneica (Joven) o
   Grasa/Grasa Sensible (Madura); el resto cae en Mixta.
 
-El texto de preguntas y opciones (`src/data/questions.ts`) es literal del
-sitio original (arrays `questions` / `manQuestions` del JS), incluyendo
-alguna inconsistencia de puntuación propia del original (p. ej. "Nunca" sin
-punto en la versión hombre). El `stepLabel` de cada pregunta también viene
-del sitio (`_textList` / `_menTextList`, los textos de la barra de
-progreso).
+El texto de preguntas y opciones (`src/data/questions.ts`) es prácticamente
+literal del sitio original (arrays `questions` / `manQuestions` del JS) — se
+corrigieron dos inconsistencias de tipeo ("Si" → "Sí" cuando el resto de las
+opciones de la misma pregunta llevan tilde, y puntuación final pareja entre
+mujer/hombre), que no afectan la lógica porque `diagnose.ts` opera sobre
+`letter`, nunca sobre el texto. El `stepLabel` de cada pregunta viene del
+sitio (`_textList` / `_menTextList`); `helper` es copy propio, una línea que
+explica para qué sirve cada pregunta.
+
+## Diseño y UX
+
+Tras una auditoría de UX/UI de dos lecturas independientes (ver
+`src/logic/diagnose.ts` para la lógica, esto es solo la experiencia), se
+rediseñó todo el front sobre un sistema de diseño propio en vez del scaffold
+por defecto de Vite:
+
+- **Tokens** (`src/index.css`): paleta cálida ciruela/hueso —no el violeta
+  SaaS por defecto—, con un tono por familia de biotipo (Mixta/Grasa/
+  Seborreica/Alípida), tipografía Piazzolla (display) + Archivo (texto),
+  escalas de spacing/radio/sombra, y las tres variantes de tema (claro,
+  oscuro por sistema, oscuro forzado).
+- **El resultado** (`src/components/ResultStep.tsx`, `src/data/results.ts`)
+  ya no es un string plano: se desglosa en 3 tarjetas (biotipo, sensibilidad,
+  hidratación) con ícono, color y una explicación real de cada rasgo, más un
+  CTA al catálogo de LACA.
+- **Bugs de estado corregidos**: "Volver" ahora restaura la opción elegida
+  (antes no leía el store), el progreso se persiste en `sessionStorage`
+  (antes un refresh perdía el diagnóstico), y cada paso tiene un fallback
+  visible en vez de `return null` (antes dejaba una página en blanco).
+- **Accesibilidad**: foco movido al encabezado en cada cambio de paso,
+  `aria-live` en el contenido principal, barra de progreso con
+  `aria-valuetext`, error de formulario asociado al input vía
+  `aria-describedby`/`aria-invalid`.
+- **Cola de reintento** (`src/api/pendingLeads.ts`): si el envío del mail
+  falla, el payload queda en `localStorage` y se reintenta en la próxima
+  carga de la app, en vez de perderse en silencio.
+
+El informe completo de la auditoría (54 hallazgos, priorizados) fue el
+insumo de este trabajo.
 
 ## Flujo de la app
 
@@ -147,16 +180,19 @@ flujo completo con email, el deploy tiene que ser en Vercel.
 
 ```
 src/
-  types.ts               tipos compartidos (Gender, Letter, Question, ...)
-  data/questions.ts       preguntas y opciones (mujer y hombre)
-  logic/diagnose.ts        lógica de diagnóstico (verificada exhaustivamente)
-  schemas.ts               esquemas Zod (contacto y payload de la API)
-  store/useQuizStore.ts    estado del wizard (Zustand)
-  api/sendResult.ts        cliente fetch hacia /api/send-result
-  components/              pasos del wizard (género, pregunta, contacto, resultado)
+  types.ts                tipos compartidos (Gender, Letter, Question, ...)
+  data/questions.ts        preguntas, opciones y helper copy (mujer y hombre)
+  data/results.ts           contenido interpretativo por rasgo del resultado
+  logic/diagnose.ts         lógica de diagnóstico (verificada exhaustivamente)
+  schemas.ts                esquemas Zod (contacto y payload de la API)
+  store/useQuizStore.ts     estado del wizard (Zustand + persist en sessionStorage)
+  hooks/useAutoFocus.ts     foco accesible al cambiar de paso
+  api/sendResult.ts         cliente fetch hacia /api/send-result
+  api/pendingLeads.ts       cola de reintento local para envíos fallidos
+  components/               Header, Footer, Icons, EmptyState y los pasos del wizard
 server/
-  send-result.ts           código fuente de la función serverless (envío con Resend)
+  send-result.ts            código fuente de la función serverless (envío con Resend)
 api/
-  package.json             fuerza CommonJS para lo que Vercel deploya de esta carpeta
-  send-result.js            bundle generado por `npm run build:api` — SÍ se commitea
+  package.json              fuerza CommonJS para lo que Vercel deploya de esta carpeta
+  send-result.js             bundle generado por `npm run build:api` — SÍ se commitea
 ```

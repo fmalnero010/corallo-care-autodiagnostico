@@ -24881,9 +24881,11 @@ var womenQuestions = [
   {
     id: "P1",
     stepLabel: "BRILLO",
+    stage: "biotipo",
     prompt: "Durante el d\xEDa, \xBFte brilla la piel del rostro?",
+    helper: "Nos ayuda a identificar si tu piel tiende a producir m\xE1s o menos oleosidad.",
     options: [
-      { letter: "A", text: "Si, pero solo en la nariz y la frente" },
+      { letter: "A", text: "S\xED, pero solo en la nariz y la frente" },
       { letter: "B", text: "S\xED, por todo el rostro." },
       { letter: "C", text: "S\xED, por todo el rostro y en exceso." },
       { letter: "D", text: "No, se muestra seca y a veces se escama." }
@@ -24892,7 +24894,9 @@ var womenQuestions = [
   {
     id: "P2",
     stepLabel: "POROS",
+    stage: "biotipo",
     prompt: "Los poros de tu rostro son:",
+    helper: "El tama\xF1o de los poros es una de las se\xF1ales m\xE1s claras del biotipo de tu piel.",
     options: [
       { letter: "A", text: "Se pueden ver claramente en nariz y/o p\xF3mulos" },
       { letter: "B", text: "Est\xE1n dilatados en varias partes del rostro." },
@@ -24903,7 +24907,9 @@ var womenQuestions = [
   {
     id: "P3",
     stepLabel: "TACTO",
+    stage: "biotipo",
     prompt: "La piel al tacto, tomada entre los dedos pulgar e \xEDndice:",
+    helper: "La textura al tacto distingue una piel seca de una grasa incluso antes de mirarla.",
     options: [
       { letter: "A", text: "Fina y seca." },
       { letter: "B", text: "Gruesa y oleosa." },
@@ -24914,7 +24920,9 @@ var womenQuestions = [
   {
     id: "P4",
     stepLabel: "COMEDONES O ACN\xC9",
+    stage: "biotipo",
     prompt: "\xBFTen\xE9s comedones y/o acn\xE9?",
+    helper: "La frecuencia de imperfecciones indica cu\xE1nto tiende a obstruirse tu piel.",
     options: [
       { letter: "A", text: "A veces." },
       { letter: "B", text: "Con frecuencia." },
@@ -24925,7 +24933,9 @@ var womenQuestions = [
   {
     id: "P5",
     stepLabel: "MAQUILLAJE",
+    stage: "biotipo",
     prompt: "Cuando us\xE1s maquillajes",
+    helper: "C\xF3mo se comporta el maquillaje durante el d\xEDa revela el nivel real de oleosidad.",
     options: [
       {
         letter: "A",
@@ -24942,16 +24952,20 @@ var womenQuestions = [
   {
     id: "P6",
     stepLabel: "SENSIBILIDAD",
+    stage: "sensibilidad",
     prompt: "Ten\xE9s enrojecimiento y/o alteraciones vasculares en nariz y p\xF3mulos?",
+    helper: "El enrojecimiento y las alteraciones vasculares son la principal se\xF1al de piel sensible.",
     options: [
-      { letter: "A", text: "Si" },
+      { letter: "A", text: "S\xED" },
       { letter: "B", text: "No" }
     ]
   },
   {
     id: "P7",
     stepLabel: "HIDRATACI\xD3N",
+    stage: "hidratacion",
     prompt: "\xBFC\xF3mo sent\xEDs la piel al tacto?",
+    helper: "La sensaci\xF3n al tacto ayuda a distinguir una piel deshidratada de una bien hidratada.",
     options: [
       { letter: "A", text: "\xC1spera" },
       { letter: "B", text: "Suave" }
@@ -24960,7 +24974,9 @@ var womenQuestions = [
   {
     id: "P8",
     stepLabel: "TACTO",
+    stage: "hidratacion",
     prompt: "La piel al tacto, tomada entre los dedos pulgar e \xEDndice",
+    helper: "La elasticidad es el segundo indicador clave del nivel de hidrataci\xF3n.",
     options: [
       { letter: "A", text: "No es turgente y le cuesta volver a su posici\xF3n natural" },
       { letter: "B", text: "Es el\xE1stica" }
@@ -24971,7 +24987,9 @@ var menQuestions = [
   {
     id: "P1",
     stepLabel: "EDAD",
+    stage: "edad",
     prompt: "Selecciona tu rango de edad",
+    helper: "La edad orienta si tu piel est\xE1 en una etapa joven o madura, clave para el diagn\xF3stico.",
     options: [
       { letter: "A", text: "15 a 25 a\xF1os" },
       { letter: "B", text: "25 a 35 a\xF1os" },
@@ -24984,9 +25002,11 @@ var menQuestions = [
   {
     id: "P2",
     stepLabel: "BRILLO",
+    stage: "biotipo",
     prompt: "Durante el d\xEDa, \xBFte brilla la piel del rostro?",
+    helper: "Nos ayuda a identificar si tu piel tiende a producir m\xE1s o menos oleosidad.",
     options: [
-      { letter: "A", text: "Si, pero solo en la nariz y la frente" },
+      { letter: "A", text: "S\xED, pero solo en la nariz y la frente" },
       { letter: "B", text: "S\xED, por todo el rostro." },
       { letter: "C", text: "S\xED, por todo el rostro y en exceso." }
     ]
@@ -24994,7 +25014,9 @@ var menQuestions = [
   {
     id: "P3",
     stepLabel: "POROS",
+    stage: "biotipo",
     prompt: "Los poros de tu rostro son:",
+    helper: "El tama\xF1o de los poros es una de las se\xF1ales m\xE1s claras del biotipo de tu piel.",
     options: [
       { letter: "A", text: "Se pueden ver claramente en nariz y/o p\xF3mulos" },
       { letter: "B", text: "Est\xE1n dilatados en varias partes del rostro." },
@@ -25005,21 +25027,25 @@ var menQuestions = [
   {
     id: "P4",
     stepLabel: "COMEDONES O ACN\xC9",
+    stage: "biotipo",
     prompt: "\xBFTen\xE9s comedones y/o acn\xE9?",
+    helper: "La frecuencia de imperfecciones indica cu\xE1nto tiende a obstruirse tu piel.",
     options: [
       { letter: "A", text: "A veces." },
       { letter: "B", text: "Con frecuencia." },
       { letter: "C", text: "Con mucha frecuencia, incluso en pecho y espalda." },
-      { letter: "D", text: "Nunca" }
+      { letter: "D", text: "Nunca." }
     ]
   },
   {
     id: "P5",
     stepLabel: "AFEITADO",
+    stage: "afeitado",
     prompt: "Despu\xE9s de afeitarte",
+    helper: "C\xF3mo reacciona tu piel al afeitado es una se\xF1al clave de sensibilidad y tendencia acneica.",
     options: [
       { letter: "A", text: "Se te irrita la piel." },
-      { letter: "B", text: "No se te irrita la piel" },
+      { letter: "B", text: "No se te irrita la piel." },
       { letter: "C", text: "Te aparecen p\xFAstulas." },
       { letter: "D", text: "No te afeitas." }
     ]
