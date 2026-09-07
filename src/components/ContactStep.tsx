@@ -7,7 +7,7 @@ export function ContactStep() {
   const goBack = useQuizStore((s) => s.goBack);
 
   const form = useForm({
-    defaultValues: { name: '', email: '' },
+    defaultValues: { name: '' },
     validators: { onChange: contactSchema },
     onSubmit: ({ value }) => {
       setContact(value);
@@ -17,7 +17,7 @@ export function ContactStep() {
   return (
     <div className="card">
       <h2>Ya tenemos tu diagnóstico</h2>
-      <p className="subtitle">Dejanos tu nombre y email para mostrarte el resultado y enviártelo por mail.</p>
+      <p className="subtitle">Dejanos tu nombre para mostrarte el resultado.</p>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -36,26 +36,6 @@ export function ContactStep() {
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 autoComplete="name"
-              />
-              {field.state.meta.errors.length > 0 && (
-                <span className="field-error">{field.state.meta.errors.map(String).join(', ')}</span>
-              )}
-            </div>
-          )}
-        </form.Field>
-
-        <form.Field name="email">
-          {(field) => (
-            <div className="field">
-              <label htmlFor={field.name}>Email</label>
-              <input
-                id={field.name}
-                name={field.name}
-                type="email"
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                autoComplete="email"
               />
               {field.state.meta.errors.length > 0 && (
                 <span className="field-error">{field.state.meta.errors.map(String).join(', ')}</span>

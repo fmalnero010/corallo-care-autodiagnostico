@@ -54,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const from = process.env.EMAIL_FROM;
   const internalTo = process.env.EMAIL_TO_INTERNAL;
 
-  if (!apiKey || !from) {
+  if (!apiKey || !from || !internalTo) {
     res.status(500).json({ ok: false, error: 'Servicio de email no configurado' });
     return;
   }
@@ -63,53 +63,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const summary = buildAnswersSummary(gender, answers as AnswerMap);
   const genderLabel = gender === 'mujer' ? 'Mujer' : 'Hombre';
 
+  // Único destinatario: la casilla interna de LACA. Quien completa el
+  // cuestionario no da su email ni recibe ninguna confirmación — esto es
+  // un lead interno, no una respuesta al usuario.
+  //
   // El SDK de Resend NO tira excepción ante un error de la API (dominio no
   // verificado, key inválida, etc.): devuelve `{ data: null, error }`. Si no
   // se chequea `error` a mano, un envío fallido se reporta como éxito.
   // https://github.com/resend/resend-node/issues/429
   try {
-    const userSend = await resend.emails.send({
+    const send = await resend.emails.send({
       from,
-      to: contact.email,
-      subject: `Tu diagnóstico de piel: ${result}`,
+      to: internalTo,
+      subject: `Nuevo autodiagnóstico (${genderLabel}): ${result}`,
       text: [
-        `Hola ${contact.name},`,
+        `Nombre: ${contact.name}`,
+        `Género: ${genderLabel}`,
+        `Resultado: ${result}`,
         '',
-        `Tu tipo de piel es: ${result}`,
-        '',
-        'Respuestas del autodiagnóstico:',
+        'Respuestas:',
         summary,
-        '',
-        'LACA Cosmética Profesional',
       ].join('\n'),
     });
 
-    if (userSend.error) {
-      throw new Error(`Resend rechazó el email al usuario: ${userSend.error.message}`);
-    }
-
-    if (internalTo) {
-      const internalSend = await resend.emails.send({
-        from,
-        to: internalTo,
-        replyTo: contact.email,
-        subject: `Nuevo autodiagnóstico (${genderLabel}): ${result}`,
-        text: [
-          `Nombre: ${contact.name}`,
-          `Email: ${contact.email}`,
-          `Género: ${genderLabel}`,
-          `Resultado: ${result}`,
-          '',
-          'Respuestas:',
-          summary,
-        ].join('\n'),
-      });
-
-      // El mail de lead interno es best-effort: si falla, no le arruina la
-      // experiencia al usuario (su mail ya salió bien), solo lo logueamos.
-      if (internalSend.error) {
-        console.error('Resend rechazó el email interno', internalSend.error);
-      }
+    if (send.error) {
+      throw new Error(`Resend rechazó el email: ${send.error.message}`);
     }
 
     res.status(200).json({ ok: true });

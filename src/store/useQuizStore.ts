@@ -12,13 +12,11 @@ interface QuizState {
   answers: AnswerMap;
   contact: ContactInfo | null;
   result: string | null;
-  emailStatus: 'idle' | 'sending' | 'sent' | 'error';
 
   selectGender: (gender: Gender) => void;
   answerCurrent: (letter: Letter) => void;
   goBack: () => void;
   setContact: (contact: ContactInfo) => void;
-  setEmailStatus: (status: QuizState['emailStatus']) => void;
   reset: () => void;
 }
 
@@ -29,7 +27,6 @@ const initialState = {
   answers: {},
   contact: null,
   result: null,
-  emailStatus: 'idle' as const,
 };
 
 export const useQuizStore = create<QuizState>((set, get) => ({
@@ -69,8 +66,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   },
 
   setContact: (contact) => set({ contact, stage: 'result' }),
-
-  setEmailStatus: (emailStatus) => set({ emailStatus }),
 
   reset: () => set({ ...initialState }),
 }));

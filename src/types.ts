@@ -19,7 +19,6 @@ export type AnswerMap = Record<string, Letter>;
 
 export interface ContactInfo {
   name: string;
-  email: string;
 }
 
 export interface DiagnosisResult {

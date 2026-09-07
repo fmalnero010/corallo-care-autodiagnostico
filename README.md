@@ -2,16 +2,17 @@
 
 Formulario standalone (React + Vite) que reproduce la lógica de
 `/autodiagnostico` de LACA: cuestionario de piel para mujer (8 preguntas) y
-hombre (5 preguntas), cálculo del diagnóstico en el cliente y envío del
-resultado por email mediante una función serverless de Vercel.
+hombre (5 preguntas), cálculo del diagnóstico en el cliente y aviso del
+resultado como lead interno por email mediante una función serverless de
+Vercel.
 
 ## Stack
 
 - **React 19 + Vite + TypeScript**
 - **Zustand** — estado del wizard (género, paso actual, respuestas, contacto)
 - **Zod** — validación del formulario de contacto y del payload de la API
-- **TanStack Form** — formulario de contacto (nombre + email)
-- **Resend** — envío de emails desde la función serverless (`/api/send-result`)
+- **TanStack Form** — formulario de contacto (solo nombre)
+- **Resend** — envío del email de lead desde la función serverless (`/api/send-result`)
 
 ## Lógica de diagnóstico
 
@@ -43,18 +44,17 @@ progreso).
 1. Elegís género (mujer/hombre).
 2. Respondés el cuestionario paso a paso (una pregunta por pantalla).
 3. Al responder la última pregunta se calcula el diagnóstico y se pide
-   nombre + email.
-4. Se muestra el resultado en pantalla y se dispara el envío de email vía
-   `POST /api/send-result`.
+   el nombre.
+4. Se muestra el resultado en pantalla y, en paralelo y en silencio, se
+   dispara `POST /api/send-result`.
 
 La función serverless **recalcula el diagnóstico en el servidor** a partir
 de las respuestas recibidas — nunca confía en un resultado que mande el
-cliente — y envía dos emails con Resend:
-
-- Al usuario, con su resultado y el detalle de respuestas.
-- A una casilla interna (`EMAIL_TO_INTERNAL`), como lead, con `replyTo` al
-  email del usuario. Este segundo envío es opcional: si no se configura
-  `EMAIL_TO_INTERNAL`, solo se manda el mail al usuario.
+cliente — y manda **un único email, a la casilla interna** (`EMAIL_TO_INTERNAL`)
+con el nombre, el resultado y el detalle de respuestas, a modo de lead. Quien
+completa el cuestionario no da su email ni recibe ninguna confirmación: no
+sabe que ese mail se envió. Si el envío falla, no afecta su experiencia —
+solo ve su resultado en pantalla igual.
 
 ## Configuración
 
@@ -69,7 +69,7 @@ Completá `.env`:
 | --- | --- |
 | `RESEND_API_KEY` | API key de [Resend](https://resend.com/api-keys) |
 | `EMAIL_FROM` | Remitente verificado en Resend (dominio propio) |
-| `EMAIL_TO_INTERNAL` | Casilla interna que recibe copia de cada lead (opcional) |
+| `EMAIL_TO_INTERNAL` | Casilla interna que recibe cada lead — **obligatoria**, es el único destinatario |
 
 En Vercel, cargá las mismas variables en **Project Settings → Environment
 Variables**.

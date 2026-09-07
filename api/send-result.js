@@ -24865,8 +24865,7 @@ function date4(params) {
 
 // src/schemas.ts
 var contactSchema = external_exports.object({
-  name: external_exports.string().trim().min(2, "Ingres\xE1 tu nombre completo").max(80, "Nombre demasiado largo"),
-  email: external_exports.string().trim().min(1, "Ingres\xE1 tu email").email("Ingres\xE1 un email v\xE1lido")
+  name: external_exports.string().trim().min(2, "Ingres\xE1 tu nombre completo").max(80, "Nombre demasiado largo")
 });
 var genderSchema = external_exports.enum(["mujer", "hombre"]);
 var letterSchema = external_exports.enum(["A", "B", "C", "D", "E", "F"]);
@@ -25126,7 +25125,7 @@ async function handler(req, res) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM;
   const internalTo = process.env.EMAIL_TO_INTERNAL;
-  if (!apiKey || !from) {
+  if (!apiKey || !from || !internalTo) {
     res.status(500).json({ ok: false, error: "Servicio de email no configurado" });
     return;
   }
@@ -25134,43 +25133,21 @@ async function handler(req, res) {
   const summary = buildAnswersSummary(gender, answers);
   const genderLabel = gender === "mujer" ? "Mujer" : "Hombre";
   try {
-    const userSend = await resend.emails.send({
+    const send = await resend.emails.send({
       from,
-      to: contact.email,
-      subject: `Tu diagn\xF3stico de piel: ${result}`,
+      to: internalTo,
+      subject: `Nuevo autodiagn\xF3stico (${genderLabel}): ${result}`,
       text: [
-        `Hola ${contact.name},`,
+        `Nombre: ${contact.name}`,
+        `G\xE9nero: ${genderLabel}`,
+        `Resultado: ${result}`,
         "",
-        `Tu tipo de piel es: ${result}`,
-        "",
-        "Respuestas del autodiagn\xF3stico:",
-        summary,
-        "",
-        "LACA Cosm\xE9tica Profesional"
+        "Respuestas:",
+        summary
       ].join("\n")
     });
-    if (userSend.error) {
-      throw new Error(`Resend rechaz\xF3 el email al usuario: ${userSend.error.message}`);
-    }
-    if (internalTo) {
-      const internalSend = await resend.emails.send({
-        from,
-        to: internalTo,
-        replyTo: contact.email,
-        subject: `Nuevo autodiagn\xF3stico (${genderLabel}): ${result}`,
-        text: [
-          `Nombre: ${contact.name}`,
-          `Email: ${contact.email}`,
-          `G\xE9nero: ${genderLabel}`,
-          `Resultado: ${result}`,
-          "",
-          "Respuestas:",
-          summary
-        ].join("\n")
-      });
-      if (internalSend.error) {
-        console.error("Resend rechaz\xF3 el email interno", internalSend.error);
-      }
+    if (send.error) {
+      throw new Error(`Resend rechaz\xF3 el email: ${send.error.message}`);
     }
     res.status(200).json({ ok: true });
   } catch (error61) {

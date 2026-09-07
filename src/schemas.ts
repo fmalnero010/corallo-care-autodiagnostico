@@ -6,7 +6,6 @@ export const contactSchema = z.object({
     .trim()
     .min(2, 'Ingresá tu nombre completo')
     .max(80, 'Nombre demasiado largo'),
-  email: z.string().trim().min(1, 'Ingresá tu email').email('Ingresá un email válido'),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

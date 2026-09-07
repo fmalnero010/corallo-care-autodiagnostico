@@ -162,18 +162,3 @@ form {
   font-weight: 700;
   color: var(--accent);
 }
-
-.status {
-  font-size: 14px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: var(--bg-subtle);
-}
-
-.status-ok {
-  color: var(--success);
-}
-
-.status-error {
-  color: var(--danger);
-}
