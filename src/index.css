@@ -166,6 +166,16 @@ a {
   outline-offset: 2px;
 }
 
+/* Los encabezados de cada paso reciben foco por programa (accesibilidad:
+   anuncian el cambio de paso a lectores de pantalla) vía tabIndex={-1}.
+   No están en el orden de tabulación normal, así que un usuario de
+   teclado nunca los alcanza tabulando — mostrarles un anillo de foco
+   visible (incluido al cargar la página) solo confunde a quien ve la
+   pantalla. */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

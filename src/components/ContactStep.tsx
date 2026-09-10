@@ -20,9 +20,9 @@ export function ContactStep() {
   return (
     <div className="card">
       <h1 ref={headingRef} tabIndex={-1}>
-        Ya tenemos tu diagnóstico
+        Un último paso
       </h1>
-      <p className="subtitle">Dejanos tu nombre para mostrarte el resultado.</p>
+      <p className="subtitle">Dejanos tu nombre para continuar.</p>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -59,14 +59,13 @@ export function ContactStep() {
         </form.Field>
 
         <p className="consent-note">
-          Usamos tu nombre para identificar tu resultado y para que Corallo Care pueda contactarte con
-          recomendaciones personalizadas para tu piel.
+          Usamos tu nombre para que Corallo Care pueda contactarte con recomendaciones personalizadas.
         </p>
 
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
           {([canSubmit, isSubmitting]) => (
             <button type="submit" className="primary-button" disabled={!canSubmit}>
-              {isSubmitting ? 'Enviando...' : 'Ver mi resultado'}
+              {isSubmitting ? 'Enviando...' : 'Continuar'}
             </button>
           )}
         </form.Subscribe>

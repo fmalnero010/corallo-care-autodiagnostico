@@ -24883,7 +24883,7 @@ var womenQuestions = [
     stepLabel: "BRILLO",
     stage: "biotipo",
     prompt: "Durante el d\xEDa, \xBFte brilla la piel del rostro?",
-    helper: "Nos ayuda a identificar si tu piel tiende a producir m\xE1s o menos oleosidad.",
+    helper: "Tip: fijate varias horas despu\xE9s de lavarte la cara, sin cremas ni maquillaje.",
     options: [
       { letter: "A", text: "S\xED, pero solo en la nariz y la frente" },
       { letter: "B", text: "S\xED, por todo el rostro." },
@@ -24896,7 +24896,7 @@ var womenQuestions = [
     stepLabel: "POROS",
     stage: "biotipo",
     prompt: "Los poros de tu rostro son:",
-    helper: "El tama\xF1o de los poros es una de las se\xF1ales m\xE1s claras del biotipo de tu piel.",
+    helper: "Tip: mirate de cerca con buena luz, en nariz, mejillas y frente.",
     options: [
       { letter: "A", text: "Se pueden ver claramente en nariz y/o p\xF3mulos" },
       { letter: "B", text: "Est\xE1n dilatados en varias partes del rostro." },
@@ -24909,7 +24909,7 @@ var womenQuestions = [
     stepLabel: "TACTO",
     stage: "biotipo",
     prompt: "La piel al tacto, tomada entre los dedos pulgar e \xEDndice:",
-    helper: "La textura al tacto distingue una piel seca de una grasa incluso antes de mirarla.",
+    helper: "Tip: pellizc\xE1 suavemente la piel entre el pulgar y el \xEDndice para sentir la textura.",
     options: [
       { letter: "A", text: "Fina y seca." },
       { letter: "B", text: "Gruesa y oleosa." },
@@ -24922,7 +24922,7 @@ var womenQuestions = [
     stepLabel: "COMEDONES O ACN\xC9",
     stage: "biotipo",
     prompt: "\xBFTen\xE9s comedones y/o acn\xE9?",
-    helper: "La frecuencia de imperfecciones indica cu\xE1nto tiende a obstruirse tu piel.",
+    helper: "Tip: pens\xE1 en los \xFAltimos meses, no solo en c\xF3mo est\xE1 tu piel hoy.",
     options: [
       { letter: "A", text: "A veces." },
       { letter: "B", text: "Con frecuencia." },
@@ -24935,7 +24935,7 @@ var womenQuestions = [
     stepLabel: "MAQUILLAJE",
     stage: "biotipo",
     prompt: "Cuando us\xE1s maquillajes",
-    helper: "C\xF3mo se comporta el maquillaje durante el d\xEDa revela el nivel real de oleosidad.",
+    helper: "Tip: si no us\xE1s seguido, pens\xE1 en c\xF3mo se siente tu piel a media tarde.",
     options: [
       {
         letter: "A",
@@ -24954,7 +24954,7 @@ var womenQuestions = [
     stepLabel: "SENSIBILIDAD",
     stage: "sensibilidad",
     prompt: "Ten\xE9s enrojecimiento y/o alteraciones vasculares en nariz y p\xF3mulos?",
-    helper: "El enrojecimiento y las alteraciones vasculares son la principal se\xF1al de piel sensible.",
+    helper: "Tip: fijate si ten\xE9s l\xEDneas rojizas visibles o zonas que se enrojecen f\xE1cil.",
     options: [
       { letter: "A", text: "S\xED" },
       { letter: "B", text: "No" }
@@ -24965,7 +24965,7 @@ var womenQuestions = [
     stepLabel: "HIDRATACI\xD3N",
     stage: "hidratacion",
     prompt: "\xBFC\xF3mo sent\xEDs la piel al tacto?",
-    helper: "La sensaci\xF3n al tacto ayuda a distinguir una piel deshidratada de una bien hidratada.",
+    helper: "Tip: tocate la piel limpia, sin cremas, y prest\xE1 atenci\xF3n a c\xF3mo se siente.",
     options: [
       { letter: "A", text: "\xC1spera" },
       { letter: "B", text: "Suave" }
@@ -24976,7 +24976,7 @@ var womenQuestions = [
     stepLabel: "TACTO",
     stage: "hidratacion",
     prompt: "La piel al tacto, tomada entre los dedos pulgar e \xEDndice",
-    helper: "La elasticidad es el segundo indicador clave del nivel de hidrataci\xF3n.",
+    helper: "Tip: pellizc\xE1 suavemente y solt\xE1 \u2014 fijate qu\xE9 tan r\xE1pido vuelve a su lugar.",
     options: [
       { letter: "A", text: "No es turgente y le cuesta volver a su posici\xF3n natural" },
       { letter: "B", text: "Es el\xE1stica" }
@@ -24989,7 +24989,7 @@ var menQuestions = [
     stepLabel: "EDAD",
     stage: "edad",
     prompt: "Selecciona tu rango de edad",
-    helper: "La edad orienta si tu piel est\xE1 en una etapa joven o madura, clave para el diagn\xF3stico.",
+    helper: "Eleg\xED el rango que corresponda a tu edad actual.",
     options: [
       { letter: "A", text: "15 a 25 a\xF1os" },
       { letter: "B", text: "25 a 35 a\xF1os" },
@@ -25004,7 +25004,7 @@ var menQuestions = [
     stepLabel: "BRILLO",
     stage: "biotipo",
     prompt: "Durante el d\xEDa, \xBFte brilla la piel del rostro?",
-    helper: "Nos ayuda a identificar si tu piel tiende a producir m\xE1s o menos oleosidad.",
+    helper: "Tip: fijate varias horas despu\xE9s de lavarte la cara, sin cremas ni maquillaje.",
     options: [
       { letter: "A", text: "S\xED, pero solo en la nariz y la frente" },
       { letter: "B", text: "S\xED, por todo el rostro." },
@@ -25016,7 +25016,7 @@ var menQuestions = [
     stepLabel: "POROS",
     stage: "biotipo",
     prompt: "Los poros de tu rostro son:",
-    helper: "El tama\xF1o de los poros es una de las se\xF1ales m\xE1s claras del biotipo de tu piel.",
+    helper: "Tip: mirate de cerca con buena luz, en nariz, mejillas y frente.",
     options: [
       { letter: "A", text: "Se pueden ver claramente en nariz y/o p\xF3mulos" },
       { letter: "B", text: "Est\xE1n dilatados en varias partes del rostro." },
@@ -25029,7 +25029,7 @@ var menQuestions = [
     stepLabel: "COMEDONES O ACN\xC9",
     stage: "biotipo",
     prompt: "\xBFTen\xE9s comedones y/o acn\xE9?",
-    helper: "La frecuencia de imperfecciones indica cu\xE1nto tiende a obstruirse tu piel.",
+    helper: "Tip: pens\xE1 en los \xFAltimos meses, no solo en c\xF3mo est\xE1 tu piel hoy.",
     options: [
       { letter: "A", text: "A veces." },
       { letter: "B", text: "Con frecuencia." },
@@ -25042,7 +25042,7 @@ var menQuestions = [
     stepLabel: "AFEITADO",
     stage: "afeitado",
     prompt: "Despu\xE9s de afeitarte",
-    helper: "C\xF3mo reacciona tu piel al afeitado es una se\xF1al clave de sensibilidad y tendencia acneica.",
+    helper: "Tip: pens\xE1 en c\xF3mo reacciona tu piel habitualmente despu\xE9s de afeitarte.",
     options: [
       { letter: "A", text: "Se te irrita la piel." },
       { letter: "B", text: "No se te irrita la piel." },
@@ -25120,6 +25120,71 @@ function diagnose(gender, answers) {
   return gender === "mujer" ? diagnoseWomen(answers) : diagnoseMen(answers);
 }
 
+// src/data/results.ts
+var biotipoInfo = {
+  Mixta: {
+    label: "Mixta",
+    blurb: "Combina zonas m\xE1s grasas \u2014frente, nariz y ment\xF3n\u2014 con otras normales o secas en las mejillas. Se beneficia de productos que equilibren sin resecar ni sobrecargar.",
+    color: "var(--bio-mixta)",
+    tint: "var(--bio-mixta-tint)"
+  },
+  Grasa: {
+    label: "Grasa",
+    blurb: "Produce oleosidad en exceso en todo el rostro, con poros dilatados y tendencia a brillar durante el d\xEDa. Le sientan mejor las f\xF3rmulas livianas que regulan la producci\xF3n de sebo.",
+    color: "var(--bio-grasa)",
+    tint: "var(--bio-grasa-tint)"
+  },
+  Seborreica: {
+    label: "Seborreica",
+    blurb: "Piel grasa marcada, con poros muy dilatados y mayor predisposici\xF3n a comedones e imperfecciones. Se beneficia de una limpieza profunda y control constante del brillo.",
+    color: "var(--bio-seborreica)",
+    tint: "var(--bio-seborreica-tint)"
+  },
+  Al\u00EDpida: {
+    label: "Al\xEDpida",
+    blurb: "Produce muy poca grasa natural, por lo que suele verse fina y tener tendencia a la sequedad. Necesita un aporte extra de l\xEDpidos y protecci\xF3n constante.",
+    color: "var(--bio-alipida)",
+    tint: "var(--bio-alipida-tint)"
+  }
+};
+var sensibilidadInfo = {
+  Sensible: {
+    label: "Sensible",
+    blurb: "Reacciona con enrojecimiento o alteraciones vasculares ante est\xEDmulos externos. Conviene priorizar f\xF3rmulas suaves, sin fragancia, con activos calmantes.",
+    color: "var(--danger)",
+    tint: "var(--danger-tint)"
+  },
+  Tolerante: {
+    label: "Tolerante",
+    blurb: "No presenta enrojecimiento ni reactividad vascular frecuente, lo que da m\xE1s margen para incorporar activos y tratamientos espec\xEDficos.",
+    color: "var(--clinical)",
+    tint: "var(--clinical-tint)"
+  }
+};
+var hidratacionInfo = {
+  Hidratada: {
+    label: "Hidratada",
+    blurb: "Mantiene un buen nivel de agua en las capas superiores: se siente suave y el\xE1stica al tacto.",
+    color: "var(--clinical)",
+    tint: "var(--clinical-tint)"
+  },
+  Deshidratada: {
+    label: "Deshidratada",
+    blurb: "Le falta agua en las capas superiores \u2014no necesariamente grasa\u2014: se siente \xE1spera o tarda en recuperar su posici\xF3n al pellizcarla. Se corrige con hidratantes a base de agua, no solo con m\xE1s grasa.",
+    color: "var(--bio-grasa)",
+    tint: "var(--bio-grasa-tint)"
+  }
+};
+var BIOTIPOS = ["Mixta", "Grasa", "Seborreica", "Al\xEDpida"];
+var SENSIBILIDADES = ["Sensible", "Tolerante"];
+function parseResult(result) {
+  const [first, second, third] = result.split(" ");
+  const biotipo = BIOTIPOS.find((b) => b === first) ?? "Mixta";
+  const sensibilidad = SENSIBILIDADES.find((s) => s === second) ?? "Tolerante";
+  const hidratacion = third === "Deshidratada" ? "Deshidratada" : "Hidratada";
+  return { biotipo, sensibilidad, hidratacion };
+}
+
 // server/send-result.ts
 function buildAnswersSummary(gender, answers) {
   const questions = getQuestions(gender);
@@ -25129,6 +25194,15 @@ function buildAnswersSummary(gender, answers) {
     return `- ${q.prompt}
   ${option?.text ?? "(sin responder)"}`;
   }).join("\n");
+}
+function buildResultBreakdown(gender, result) {
+  if (gender === "hombre") return result;
+  const { biotipo, sensibilidad, hidratacion } = parseResult(result);
+  return [
+    `Biotipo: ${biotipoInfo[biotipo].label} \u2014 ${biotipoInfo[biotipo].blurb}`,
+    `Sensibilidad: ${sensibilidadInfo[sensibilidad].label} \u2014 ${sensibilidadInfo[sensibilidad].blurb}`,
+    `Hidrataci\xF3n: ${hidratacionInfo[hidratacion].label} \u2014 ${hidratacionInfo[hidratacion].blurb}`
+  ].join("\n");
 }
 async function handler(req, res) {
   if (req.method !== "POST") {
@@ -25157,16 +25231,19 @@ async function handler(req, res) {
   }
   const resend = new Resend(apiKey);
   const summary = buildAnswersSummary(gender, answers);
+  const breakdown = buildResultBreakdown(gender, result);
   const genderLabel = gender === "mujer" ? "Mujer" : "Hombre";
   try {
     const send = await resend.emails.send({
       from,
       to: internalTo,
-      subject: `Nuevo autodiagn\xF3stico (${genderLabel}): ${result}`,
+      subject: `Nuevo formulario (${genderLabel}): ${result}`,
       text: [
         `Nombre: ${contact.name}`,
         `G\xE9nero: ${genderLabel}`,
-        `Resultado: ${result}`,
+        "",
+        "Resultado:",
+        breakdown,
         "",
         "Respuestas:",
         summary

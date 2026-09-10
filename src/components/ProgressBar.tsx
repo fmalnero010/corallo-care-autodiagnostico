@@ -5,13 +5,10 @@ interface ProgressBarProps {
   current: number;
 }
 
-/**
- * Un segmento por pregunta real (no un segmento por tramo): con 8
- * preguntas se ven 8 segmentos, nunca menos — mostrar solo 3 (uno por
- * tramo) hacía parecer que había 3 pasos cuando hay 8. El único gesto
- * hacia los 3 tramos (biotipo/sensibilidad/hidratación) es un espacio más
- * grande entre preguntas de tramos distintos.
- */
+/** Un segmento por pregunta real, espaciado uniforme. Un segmento se
+ * marca como respondido solo si ya se avanzó más allá de él — la
+ * pregunta que se está mostrando ahora (`current`) todavía no tiene
+ * respuesta, así que no se pinta como completada. */
 export function ProgressBar({ questions, current }: ProgressBarProps) {
   const total = questions.length;
   const isLast = current === total - 1;
@@ -27,16 +24,9 @@ export function ProgressBar({ questions, current }: ProgressBarProps) {
       aria-valuetext={`Pregunta ${current + 1} de ${total}: ${stepLabel}`}
     >
       <div className={`progress-track${isLast ? ' progress-track-near' : ''}`}>
-        {questions.map((q, i) => {
-          const stageBreak = i > 0 && questions[i - 1].stage !== q.stage;
-          const state = i < current ? 'done' : i === current ? 'current' : 'pending';
-          return (
-            <div
-              key={q.id}
-              className={`progress-segment progress-segment-${state}${stageBreak ? ' progress-segment-break' : ''}`}
-            />
-          );
-        })}
+        {questions.map((q, i) => (
+          <div key={q.id} className={`progress-segment${i < current ? ' progress-segment-done' : ''}`} />
+        ))}
       </div>
       <span className="progress-label" aria-hidden="true">
         {stepLabel} · Pregunta {current + 1} de {total}

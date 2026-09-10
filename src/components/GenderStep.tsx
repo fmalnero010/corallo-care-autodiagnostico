@@ -8,9 +8,9 @@ export function GenderStep() {
   return (
     <div className="card card-intro">
       <h1 ref={headingRef} tabIndex={-1}>
-        Conocé tu piel
+        Empecemos
       </h1>
-      <p className="subtitle">Respondé unas preguntas rápidas y descubrí qué necesita tu piel.</p>
+      <p className="subtitle">Elegí una opción para continuar.</p>
       <div className="gender-options">
         <button type="button" className="option-card option-card-lg" onClick={() => selectGender('mujer')}>
           Mujer

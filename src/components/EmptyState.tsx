@@ -9,7 +9,7 @@ interface EmptyStateProps {
  * necesita (respuesta faltante, resultado no calculado, etc.). Antes cada
  * paso hacía `return null` ahí, dejando una página en blanco sin salida.
  */
-export function EmptyState({ message = 'Algo salió mal con tu autodiagnóstico.' }: EmptyStateProps) {
+export function EmptyState({ message = 'Algo salió mal.' }: EmptyStateProps) {
   const reset = useQuizStore((s) => s.reset);
 
   return (

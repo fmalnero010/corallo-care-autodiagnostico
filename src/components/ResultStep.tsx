@@ -2,23 +2,15 @@ import { useEffect, useRef } from 'react';
 import { useQuizStore } from '../store/useQuizStore';
 import { sendResultEmail } from '../api/sendResult';
 import { enqueuePendingLead, flushPendingLeads } from '../api/pendingLeads';
-import { parseResult, biotipoInfo, sensibilidadInfo, hidratacionInfo, type TraitInfo } from '../data/results';
-import { IconDroplet, IconShield, IconLeaf, IconRefresh } from './Icons';
 import { useAutoFocus } from '../hooks/useAutoFocus';
 import { EmptyState } from './EmptyState';
 
-function TraitRow({ icon, info, index }: { icon: React.ReactNode; info: TraitInfo; index: number }) {
-  return (
-    <div className="trait-row" style={{ '--trait-color': info.color, '--trait-delay': `${index * 90}ms` } as React.CSSProperties}>
-      <div className="trait-icon">{icon}</div>
-      <div>
-        <p className="trait-label">{info.label}</p>
-        <p className="trait-blurb">{info.blurb}</p>
-      </div>
-    </div>
-  );
-}
-
+/**
+ * A propósito, esta pantalla no muestra ningún diagnóstico: la persona que
+ * completa el formulario nunca ve el resultado. El desglose completo
+ * (biotipo/sensibilidad/hidratación con su interpretación) va solo por
+ * mail a Corallo Care — ver server/send-result.ts.
+ */
 export function ResultStep() {
   const gender = useQuizStore((s) => s.gender);
   const result = useQuizStore((s) => s.result);
@@ -29,9 +21,6 @@ export function ResultStep() {
 
   const sentRef = useRef(false);
 
-  // El envío es un lead interno (a Corallo Care), no una confirmación para
-  // la persona que responde el cuestionario: no se le muestra ningún estado
-  // de "enviando"/"enviado"/"error" relacionado al mail.
   useEffect(() => {
     if (sentRef.current) return;
     if (!gender || !result || !contact) return;
@@ -51,35 +40,17 @@ export function ResultStep() {
   }, [gender, result, contact, answers]);
 
   if (!result || !contact) {
-    return <EmptyState message="No encontramos tu resultado. Volvé a hacer el cuestionario." />;
+    return <EmptyState message="No encontramos tu información. Volvé a completar el formulario." />;
   }
 
-  const { biotipo, sensibilidad, hidratacion } = parseResult(result);
-  const bio = biotipoInfo[biotipo];
-
   return (
-    <div className="card card-result">
-      <p className="result-greeting">Gracias, {contact.name}.</p>
-
-      <div className="result-answer" style={{ '--result-color': bio.color, '--result-tint': bio.tint } as React.CSSProperties}>
-        <span className="result-eyebrow">Tu diagnóstico</span>
-        <h1 ref={headingRef} tabIndex={-1} className="result-headline">
-          {result}
-        </h1>
-      </div>
-
-      <div className="trait-section">
-        <p className="trait-section-label">Qué significa</p>
-        <div className="trait-list">
-          <TraitRow icon={<IconDroplet className="trait-icon-svg" />} info={bio} index={0} />
-          <TraitRow icon={<IconShield className="trait-icon-svg" />} info={sensibilidadInfo[sensibilidad]} index={1} />
-          <TraitRow icon={<IconLeaf className="trait-icon-svg" />} info={hidratacionInfo[hidratacion]} index={2} />
-        </div>
-      </div>
-
+    <div className="card">
+      <h1 ref={headingRef} tabIndex={-1}>
+        ¡Listo, {contact.name}!
+      </h1>
+      <p className="subtitle">Ya recibimos tu información. Corallo Care se va a poner en contacto con vos pronto.</p>
       <button type="button" className="link-button" onClick={reset}>
-        <IconRefresh className="link-button-icon" />
-        Hacer el autodiagnóstico de nuevo
+        Volver a empezar
       </button>
     </div>
   );

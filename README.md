@@ -1,9 +1,18 @@
-# Autodiagnóstico de piel — Corallo Care
+# Formulario de piel — Corallo Care
 
 Formulario standalone (React + Vite) para Corallo Care: cuestionario de piel
 para mujer (8 preguntas) y hombre (5 preguntas), cálculo del diagnóstico en
-el cliente y aviso del resultado como lead interno por email mediante una
-función serverless de Vercel.
+el servidor y aviso del resultado como lead interno por email a Anto
+(la dueña) mediante una función serverless de Vercel.
+
+**Importante:** a propósito, este formulario no se presenta como un
+autodiagnóstico ni como un test de personalidad de skincare — no dice en
+ningún lado "descubrí tu piel", no explica el porqué diagnóstico de cada
+pregunta, y la persona que lo completa nunca ve el resultado. Todo el
+desglose interpretativo (biotipo/sensibilidad/hidratación) va solo por
+mail a Anto; en pantalla, quien lo completa solo ve una confirmación
+neutra al final. Ver `src/components/ResultStep.tsx` y
+`server/send-result.ts`.
 
 ## Stack
 
@@ -37,8 +46,9 @@ corrigieron dos inconsistencias de tipeo ("Si" → "Sí" cuando el resto de las
 opciones de la misma pregunta llevan tilde, y puntuación final pareja entre
 mujer/hombre), que no afectan la lógica porque `diagnose.ts` opera sobre
 `letter`, nunca sobre el texto. El `stepLabel` de cada pregunta viene del
-sitio (`_textList` / `_menTextList`); `helper` es copy propio, una línea que
-explica para qué sirve cada pregunta.
+sitio (`_textList` / `_menTextList`); `helper` es copy propio, un tip
+práctico para responder la pregunta (a propósito no explica el porqué
+diagnóstico de cada una — ver nota de arriba).
 
 ## Diseño y UX
 
@@ -52,10 +62,11 @@ por defecto de Vite:
   Seborreica/Alípida), tipografía Piazzolla (display) + Archivo (texto),
   escalas de spacing/radio/sombra, y las tres variantes de tema (claro,
   oscuro por sistema, oscuro forzado).
-- **El resultado** (`src/components/ResultStep.tsx`, `src/data/results.ts`)
-  desglosa el diagnóstico en 3 tarjetas (biotipo, sensibilidad, hidratación)
-  con ícono, color y una explicación real de cada rasgo — es un único
-  diagnóstico mostrado en sus 3 componentes, no tres resultados distintos.
+- **El resultado nunca se muestra en pantalla** (ver nota arriba): el
+  desglose interpretativo por rasgo (biotipo, sensibilidad, hidratación)
+  vive en `src/data/results.ts` pero solo se usa para armar el mail a Anto
+  (`server/send-result.ts`) — la persona que completa el formulario solo ve
+  una pantalla de agradecimiento neutra.
 - **Bugs de estado corregidos**: "Volver" ahora restaura la opción elegida
   (antes no leía el store), el progreso se persiste en `sessionStorage`
   (antes un refresh perdía el diagnóstico), y cada paso tiene un fallback
@@ -75,18 +86,18 @@ insumo de este trabajo.
 
 1. Elegís género (mujer/hombre).
 2. Respondés el cuestionario paso a paso (una pregunta por pantalla).
-3. Al responder la última pregunta se calcula el diagnóstico y se pide
-   el nombre.
-4. Se muestra el resultado en pantalla y, en paralelo y en silencio, se
-   dispara `POST /api/send-result`.
+3. Al responder la última pregunta se pide el nombre.
+4. Se muestra una confirmación neutra ("¡Listo, [nombre]!") y, en paralelo
+   y en silencio, se dispara `POST /api/send-result`.
 
-La función serverless **recalcula el diagnóstico en el servidor** a partir
-de las respuestas recibidas — nunca confía en un resultado que mande el
-cliente — y manda **un único email, a la casilla interna** (`EMAIL_TO_INTERNAL`)
-con el nombre, el resultado y el detalle de respuestas, a modo de lead. Quien
-completa el cuestionario no da su email ni recibe ninguna confirmación: no
-sabe que ese mail se envió. Si el envío falla, no afecta su experiencia —
-solo ve su resultado en pantalla igual.
+La función serverless **calcula el diagnóstico en el servidor** a partir de
+las respuestas recibidas y manda **un único email, a la casilla interna**
+(`EMAIL_TO_INTERNAL`) con el nombre, el desglose interpretativo del
+resultado y el detalle de respuestas — es el mail de Anto, la dueña. Quien
+completa el formulario no ve el diagnóstico en ningún momento ni recibe
+ninguna confirmación relacionada al mail. Si el envío falla, no afecta su
+experiencia — igual ve la confirmación neutra, y el intento queda en una
+cola de reintento local (`src/api/pendingLeads.ts`).
 
 ## Configuración
 

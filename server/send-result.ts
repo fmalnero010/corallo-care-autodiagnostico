@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import { sendResultRequestSchema } from '../src/schemas';
 import { getQuestions } from '../src/data/questions';
 import { diagnose } from '../src/logic/diagnose';
+import { parseResult, biotipoInfo, sensibilidadInfo, hidratacionInfo } from '../src/data/results';
 import type { AnswerMap, Gender, Letter } from '../src/types';
 
 // Tipos mínimos del runtime Node de Vercel, para no depender de @vercel/node.
@@ -24,6 +25,23 @@ function buildAnswersSummary(gender: Gender, answers: AnswerMap): string {
       return `- ${q.prompt}\n  ${option?.text ?? '(sin responder)'}`;
     })
     .join('\n');
+}
+
+/**
+ * El detalle interpretativo (qué significa cada rasgo) ya no se muestra
+ * en la app — la persona que completa el formulario no ve ningún
+ * resultado, solo Corallo Care por este mail. Por eso el desglose que
+ * antes vivía en la pantalla de resultado ahora se arma acá.
+ */
+function buildResultBreakdown(gender: Gender, result: string): string {
+  if (gender === 'hombre') return result;
+
+  const { biotipo, sensibilidad, hidratacion } = parseResult(result);
+  return [
+    `Biotipo: ${biotipoInfo[biotipo].label} — ${biotipoInfo[biotipo].blurb}`,
+    `Sensibilidad: ${sensibilidadInfo[sensibilidad].label} — ${sensibilidadInfo[sensibilidad].blurb}`,
+    `Hidratación: ${hidratacionInfo[hidratacion].label} — ${hidratacionInfo[hidratacion].blurb}`,
+  ].join('\n');
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -61,11 +79,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const resend = new Resend(apiKey);
   const summary = buildAnswersSummary(gender, answers as AnswerMap);
+  const breakdown = buildResultBreakdown(gender, result);
   const genderLabel = gender === 'mujer' ? 'Mujer' : 'Hombre';
 
-  // Único destinatario: la casilla interna de Corallo Care. Quien completa el
-  // cuestionario no da su email ni recibe ninguna confirmación — esto es
-  // un lead interno, no una respuesta al usuario.
+  // Único destinatario: la casilla interna de Corallo Care. Quien completa
+  // el formulario no ve ningún resultado ni recibe ninguna confirmación —
+  // esto es un lead interno para Anto, no una respuesta al usuario.
   //
   // El SDK de Resend NO tira excepción ante un error de la API (dominio no
   // verificado, key inválida, etc.): devuelve `{ data: null, error }`. Si no
@@ -75,11 +94,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const send = await resend.emails.send({
       from,
       to: internalTo,
-      subject: `Nuevo autodiagnóstico (${genderLabel}): ${result}`,
+      subject: `Nuevo formulario (${genderLabel}): ${result}`,
       text: [
         `Nombre: ${contact.name}`,
         `Género: ${genderLabel}`,
-        `Resultado: ${result}`,
+        '',
+        'Resultado:',
+        breakdown,
         '',
         'Respuestas:',
         summary,
