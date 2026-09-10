@@ -4,7 +4,7 @@ import type { AnswerMap, ContactInfo, Gender, Letter } from '../types';
 import { getQuestions } from '../data/questions';
 import { diagnose } from '../logic/diagnose';
 
-export type QuizStage = 'gender' | 'questions' | 'contact' | 'result';
+export type QuizStage = 'welcome' | 'gender' | 'questions' | 'contact' | 'result';
 
 interface QuizState {
   stage: QuizStage;
@@ -14,6 +14,7 @@ interface QuizState {
   contact: ContactInfo | null;
   result: string | null;
 
+  begin: () => void;
   selectGender: (gender: Gender) => void;
   answerCurrent: (letter: Letter) => void;
   goBack: () => void;
@@ -22,7 +23,7 @@ interface QuizState {
 }
 
 const initialState = {
-  stage: 'gender' as QuizStage,
+  stage: 'welcome' as QuizStage,
   gender: null,
   stepIndex: 0,
   answers: {},
@@ -40,6 +41,8 @@ export const useQuizStore = create<QuizState>()(
   persist(
     (set, get) => ({
       ...initialState,
+
+      begin: () => set({ stage: 'gender' }),
 
       selectGender: (gender) => {
         set({ gender, stage: 'questions', stepIndex: 0, answers: {} });

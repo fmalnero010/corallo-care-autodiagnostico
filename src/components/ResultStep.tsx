@@ -45,8 +45,9 @@ export function ResultStep() {
   return (
     <div className="card">
       <h1 ref={headingRef} tabIndex={-1}>
-        ¡Listo, {contact.name}!
+        ¡Gracias, {contact.name}!
       </h1>
+      <p className="subtitle">Fue un gusto conocerte un poco más.</p>
     </div>
   );
 }

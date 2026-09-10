@@ -84,11 +84,13 @@ insumo de este trabajo.
 
 ## Flujo de la app
 
-1. Elegís género (mujer/hombre).
-2. Respondés el cuestionario paso a paso (una pregunta por pantalla).
-3. Al responder la última pregunta se pide el nombre.
-4. Se muestra una confirmación neutra ("¡Listo, [nombre]!") y, en paralelo
-   y en silencio, se dispara `POST /api/send-result`.
+1. Pantalla de bienvenida (`WelcomeStep`) con un único CTA ("Comenzar").
+2. Elegís género (mujer/hombre).
+3. Respondés el cuestionario paso a paso (una pregunta por pantalla).
+4. Al responder la última pregunta se pide el nombre.
+5. Se muestra un agradecimiento cálido pero neutro ("¡Gracias, [nombre]!
+   Fue un gusto conocerte un poco más.") y, en paralelo y en silencio, se
+   dispara `POST /api/send-result`.
 
 La función serverless **calcula el diagnóstico en el servidor** a partir de
 las respuestas recibidas y manda **un único email, a la casilla interna**

@@ -8,7 +8,7 @@ export function GenderStep() {
   return (
     <div className="card card-intro">
       <h1 ref={headingRef} tabIndex={-1}>
-        Empecemos
+        Contanos un poco de vos
       </h1>
       <p className="subtitle">Elegí una opción para continuar.</p>
       <div className="gender-options">

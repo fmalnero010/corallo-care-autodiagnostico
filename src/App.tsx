@@ -1,6 +1,7 @@
 import { useQuizStore } from './store/useQuizStore';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { WelcomeStep } from './components/WelcomeStep';
 import { GenderStep } from './components/GenderStep';
 import { QuestionStep } from './components/QuestionStep';
 import { ContactStep } from './components/ContactStep';
@@ -14,6 +15,7 @@ function App() {
     <div className="page">
       <Header />
       <main className="page-main" aria-live="polite">
+        {stage === 'welcome' && <WelcomeStep />}
         {stage === 'gender' && <GenderStep />}
         {stage === 'questions' && <QuestionStep />}
         {stage === 'contact' && <ContactStep />}
