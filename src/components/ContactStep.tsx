@@ -58,10 +58,6 @@ export function ContactStep() {
           }}
         </form.Field>
 
-        <p className="consent-note">
-          Usamos tu nombre para que Corallo Care pueda contactarte con recomendaciones personalizadas.
-        </p>
-
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
           {([canSubmit, isSubmitting]) => (
             <button type="submit" className="primary-button" disabled={!canSubmit}>

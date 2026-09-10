@@ -16,7 +16,6 @@ export function ResultStep() {
   const result = useQuizStore((s) => s.result);
   const answers = useQuizStore((s) => s.answers);
   const contact = useQuizStore((s) => s.contact);
-  const reset = useQuizStore((s) => s.reset);
   const headingRef = useAutoFocus<HTMLHeadingElement>([]);
 
   const sentRef = useRef(false);
@@ -48,10 +47,6 @@ export function ResultStep() {
       <h1 ref={headingRef} tabIndex={-1}>
         ¡Listo, {contact.name}!
       </h1>
-      <p className="subtitle">Ya recibimos tu información. Corallo Care se va a poner en contacto con vos pronto.</p>
-      <button type="button" className="link-button" onClick={reset}>
-        Volver a empezar
-      </button>
     </div>
   );
 }

@@ -218,11 +218,6 @@ h1 {
   border-color: var(--accent);
 }
 
-.progress-track-near .progress-segment-done {
-  background: var(--clinical);
-  border-color: var(--clinical);
-}
-
 .progress-label {
   font-family: var(--font-body);
   font-size: var(--text-xs);
@@ -276,12 +271,6 @@ form {
 .field-error {
   font-size: var(--text-xs);
   color: var(--danger);
-}
-
-.consent-note {
-  font-size: var(--text-xs);
-  color: var(--ink-muted);
-  line-height: 1.5;
 }
 
 /* ---------- Buttons ---------- */

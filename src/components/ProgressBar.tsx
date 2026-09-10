@@ -11,7 +11,6 @@ interface ProgressBarProps {
  * respuesta, así que no se pinta como completada. */
 export function ProgressBar({ questions, current }: ProgressBarProps) {
   const total = questions.length;
-  const isLast = current === total - 1;
   const stepLabel = questions[current]?.stepLabel ?? '';
 
   return (
@@ -23,7 +22,7 @@ export function ProgressBar({ questions, current }: ProgressBarProps) {
       aria-valuemax={total}
       aria-valuetext={`Pregunta ${current + 1} de ${total}: ${stepLabel}`}
     >
-      <div className={`progress-track${isLast ? ' progress-track-near' : ''}`}>
+      <div className="progress-track">
         {questions.map((q, i) => (
           <div key={q.id} className={`progress-segment${i < current ? ' progress-segment-done' : ''}`} />
         ))}
